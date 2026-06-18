@@ -392,7 +392,7 @@ function animate() {
 
   renderer.clearColor();
   renderer.clearDepth();
-  composer.render();
+  renderer.render(scene, camera);
 }
 animate();
 
