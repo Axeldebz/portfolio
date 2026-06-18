@@ -19,6 +19,7 @@ const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 renderer.setSize(W, H);
 renderer.setClearColor(0x000000, 0);
+renderer.autoClear = false;
 // Shadows disabled — no receivers in scene, zero visual impact
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -36,7 +37,12 @@ scene.environment = envTex;
 pmrem.dispose();
 
 /* ── Post-processing: bloom ─────────────────────── */
-const composer = new EffectComposer(renderer);
+const renderTarget = new THREE.WebGLRenderTarget(W, H, {
+  type: THREE.HalfFloatType,
+  format: THREE.RGBAFormat,
+  stencilBuffer: false,
+});
+const composer = new EffectComposer(renderer, renderTarget);
 composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(
   new THREE.Vector2(W, H),
@@ -384,6 +390,8 @@ function animate() {
     }
   });
 
+  renderer.clearColor();
+  renderer.clearDepth();
   composer.render();
 }
 animate();
