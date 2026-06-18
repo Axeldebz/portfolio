@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  /* ── Guard : ne pas s'initialiser dans l'iframe du shell ── */
+  if (window.self !== window.top) return;
+
   /* ── Base path (root ou /projets/) ── */
   const BASE = window.location.pathname.includes('/projets/') ? '../' : '';
 
@@ -108,7 +111,6 @@
     'Zuukou Mayzie 667 feat. Freeze Corleone 667 - Spiderman-Venom',
   ];
 
-  /* Shuffle aléatoire au chargement */
   const TRACKS = RAW.slice().sort(() => Math.random() - 0.5);
 
   function parse(raw) {
@@ -116,7 +118,7 @@
     return i < 0 ? { artist: raw, title: raw } : { artist: raw.slice(0, i), title: raw.slice(i + 3) };
   }
 
-  /* ── Icônes SVG ── */
+  /* ── SVGs ── */
   const I = {
     jukebox: `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3.5" y="8.5" width="13" height="9.5" rx="2"/>
@@ -167,22 +169,21 @@
   document.body.appendChild(host);
 
   /* ── Refs ── */
-  const panel     = document.getElementById('jukeboxPanel');
-  const toggle    = document.getElementById('jukeboxToggle');
-  const btnPlay   = document.getElementById('jukePlay');
-  const btnPrev   = document.getElementById('jukePrev');
-  const btnNext   = document.getElementById('jukeNext');
-  const btnHide   = document.getElementById('jukeHide');
-  const volInput  = document.getElementById('jukeVol');
-  const elArtist  = document.getElementById('jukeArtist');
-  const elTitle   = document.getElementById('jukeTitle');
+  const panel    = document.getElementById('jukeboxPanel');
+  const toggle   = document.getElementById('jukeboxToggle');
+  const btnPlay  = document.getElementById('jukePlay');
+  const btnPrev  = document.getElementById('jukePrev');
+  const btnNext  = document.getElementById('jukeNext');
+  const btnHide  = document.getElementById('jukeHide');
+  const volInput = document.getElementById('jukeVol');
+  const elArtist = document.getElementById('jukeArtist');
+  const elTitle  = document.getElementById('jukeTitle');
 
   /* ── Audio ── */
   const audio = new Audio();
   audio.volume = 0.7;
   let idx     = 0;
   let started = false;
-  let isOpen  = false;
 
   function setInfo() {
     const { artist, title } = parse(TRACKS[idx]);
@@ -206,22 +207,79 @@
   audio.addEventListener('play',  syncBtn);
   audio.addEventListener('pause', syncBtn);
 
-  /* ── Panel open / close ── */
-  function openPanel()  {
+  /* ── Hover panel ── */
+  let isOpen      = false;
+  let forceHidden = false;
+  let openTimer   = null;
+  let closeTimer  = null;
+
+  function openPanel() {
+    if (forceHidden) return;
     isOpen = true;
     panel.classList.add('open');
-    toggle.classList.add('active');
+    host.classList.add('juke--open');
   }
+
   function closePanel() {
-    isOpen = false;
+    isOpen      = false;
+    forceHidden = false;
     panel.classList.remove('open');
-    toggle.classList.remove('active');
+    host.classList.remove('juke--open');
   }
 
-  toggle.addEventListener('click', () => isOpen ? closePanel() : openPanel());
-  btnHide.addEventListener('click', closePanel);
+  function scheduleOpen() {
+    clearTimeout(closeTimer);
+    closeTimer = null;
+    if (!isOpen && !forceHidden) {
+      openTimer = openTimer || setTimeout(openPanel, 90);
+    }
+  }
 
-  /* ── Contrôles ── */
+  function scheduleClose() {
+    clearTimeout(openTimer);
+    openTimer = null;
+    if (!closeTimer) {
+      closeTimer = setTimeout(closePanel, 320);
+    }
+  }
+
+  /* Hôte principal */
+  host.addEventListener('mouseenter', scheduleOpen);
+  host.addEventListener('mouseleave', scheduleClose);
+
+  /* Le panel est en position:absolute au-dessus du bouton —
+     on écoute aussi ses événements pour combler l'espace entre les deux */
+  panel.addEventListener('mouseenter', () => {
+    clearTimeout(closeTimer);
+    closeTimer = null;
+    forceHidden = false;
+  });
+  panel.addEventListener('mouseleave', scheduleClose);
+
+  /* Clic sur le bouton jukebox = lecture/pause */
+  toggle.addEventListener('click', () => {
+    if (!started) {
+      started = true;
+      loadTrack(idx, true);
+    } else if (audio.paused) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  });
+
+  /* Bouton masquer : ferme le panel + bloque la réouverture jusqu'à ce que
+     le curseur quitte la zone (mouseleave remet forceHidden à false via closePanel) */
+  btnHide.addEventListener('click', () => {
+    forceHidden = true;
+    clearTimeout(openTimer);
+    openTimer = null;
+    panel.classList.remove('open');
+    host.classList.remove('juke--open');
+    isOpen = false;
+  });
+
+  /* Contrôles */
   btnPlay.addEventListener('click', () => {
     if (!started) {
       started = true;
