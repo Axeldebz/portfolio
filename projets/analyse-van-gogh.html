@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyse Van Gogh — AXEL</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="project.css">
+  <style>
+    body { background: #111118; color: #F0EDE8; }
+    .proj-hero { background: #0C0C12; }
+    .comp-btn { border-color: rgba(240,237,232,0.35); color: #F0EDE8; }
+    .proj-footer { color: rgba(240,237,232,0.35); border-top-color: rgba(240,237,232,0.08); }
+    .proj-media-block { background: #0C0C12; }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo swell">AXEL</a>
+    <button class="nav-menu-btn" id="menuOpen">Menu <span class="menu-plus">+</span></button>
+  </nav>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-overlay-inner">
+      <div class="menu-overlay-top">
+        <a href="../index.html" class="nav-logo swell" id="menuLogo">AXEL</a>
+        <button class="nav-close-btn" id="menuClose">Close <span>×</span></button>
+      </div>
+      <nav class="menu-links">
+        <a href="../index.html"         class="menu-link" data-num="01">HOME</a>
+        <a href="../index.html#work"    class="menu-link" data-num="02">WORK</a>
+        <a href="../index.html#about"   class="menu-link" data-num="03">ABOUT</a>
+        <a href="../index.html#contact" class="menu-link" data-num="04">LET'S TALK</a>
+      </nav>
+      <div class="menu-footer">
+        <a href="mailto:axel.bureau01@gmail.com">axel.bureau01@gmail.com</a>
+        <div class="menu-social">
+          <a href="https://www.instagram.com/aep.axell/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="../index.html#work" class="proj-back">← WORK</a>
+
+  <!-- Hero video (analyse) -->
+  <section class="proj-hero">
+    <video src="Analyse%20de%20la%20route%20avec%20un%20cypres%20et%20une%20etoile%20de%20Van%20Gogh/video%20analyse%20van%20gogh%20route%20avec%20cypres%20et%20une%20etoile.mp4"
+           autoplay loop muted playsinline></video>
+    <div class="proj-hero-overlay"
+         style="background: linear-gradient(to bottom, transparent 55%, #111118);"></div>
+  </section>
+
+  <!-- Title + description -->
+  <div class="proj-content">
+    <p class="proj-eyebrow">Blender · Analyse · Artistique</p>
+    <h1 class="proj-h1 swell">ANALYSE<br>VAN GOGH</h1>
+    <p class="proj-desc">
+      Reconstitution 3D sous Blender de l'œuvre <em>La route avec un cyprès et une étoile</em>
+      de Vincent van Gogh. Une narration visuelle autour de la composition, de la lumière
+      et de l'atmosphère qui font l'histoire de ce tableau — un style que j'apprécie
+      particulièrement pour son expressivité, sa gestuelle et son sens de la profondeur.
+    </p>
+  </div>
+
+  <hr class="proj-rule">
+
+  <!-- Second video (intro) -->
+  <div class="proj-media">
+    <div class="proj-media-block">
+      <video src="Analyse%20de%20la%20route%20avec%20un%20cypres%20et%20une%20etoile%20de%20Van%20Gogh/intro.mp4"
+             autoplay loop muted playsinline preload="metadata"></video>
+    </div>
+  </div>
+
+  <!-- COMPÉTENCES -->
+  <div class="proj-comp-section">
+    <button class="comp-btn" id="compBtn">COMPÉTENCES MMI</button>
+  </div>
+
+  <footer class="proj-footer">
+    <span>© 2026 Axel Bureau</span>
+    <a href="https://www.instagram.com/aep.axell/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+
+  <!-- Modal -->
+  <div class="comp-modal-overlay" id="compOverlay"></div>
+  <div class="comp-modal" id="compModal">
+    <div class="comp-modal-handle"></div>
+    <button class="comp-modal-close" id="compClose">✕</button>
+    <div class="comp-modal-header">
+      <p class="comp-modal-title swell">Compétences MMI</p>
+      <p class="comp-modal-sub">BUT Métiers du Multimédia et de l'Internet</p>
+    </div>
+    <ul class="comp-list">
+      <li class="comp-item">
+        <span class="comp-item-tag">EXPRIMER</span>
+        <div class="comp-item-info">
+          <p class="comp-item-name">Exprimer un message par les médias</p>
+          <p class="comp-item-ac">AC : 23.06</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>

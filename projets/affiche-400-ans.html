@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>400 Ans Marine — AXEL</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="project.css">
+  <style>
+    body { background: #080F1E; color: #E8EDF5; }
+    .proj-hero { background: #060C18; }
+    .comp-btn { border-color: rgba(232,237,245,0.35); color: #E8EDF5; }
+    .proj-footer { color: rgba(232,237,245,0.35); border-top-color: rgba(232,237,245,0.08); }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="../index.html" class="nav-logo swell">AXEL</a>
+    <button class="nav-menu-btn" id="menuOpen">Menu <span class="menu-plus">+</span></button>
+  </nav>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-overlay-inner">
+      <div class="menu-overlay-top">
+        <a href="../index.html" class="nav-logo swell" id="menuLogo">AXEL</a>
+        <button class="nav-close-btn" id="menuClose">Close <span>×</span></button>
+      </div>
+      <nav class="menu-links">
+        <a href="../index.html"         class="menu-link" data-num="01">HOME</a>
+        <a href="../index.html#work"    class="menu-link" data-num="02">WORK</a>
+        <a href="../index.html#about"   class="menu-link" data-num="03">ABOUT</a>
+        <a href="../index.html#contact" class="menu-link" data-num="04">LET'S TALK</a>
+      </nav>
+      <div class="menu-footer">
+        <a href="mailto:axel.bureau01@gmail.com">axel.bureau01@gmail.com</a>
+        <div class="menu-social">
+          <a href="https://www.instagram.com/aep.axell/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="../index.html#work" class="proj-back">← WORK</a>
+
+  <!-- Hero image (post format — centered) -->
+  <section class="proj-hero proj-hero--image">
+    <img src="post%20affiche%20LCV/Post-insta-LCV-anniversaire-marine.png"
+         alt="400 ans Marine Nationale" loading="lazy">
+  </section>
+
+  <!-- Title + description -->
+  <div class="proj-content">
+    <p class="proj-eyebrow">Post · Vectoriel · Communication</p>
+    <h1 class="proj-h1 swell">400 ANS<br>MARINE</h1>
+    <p class="proj-desc">
+      Post Instagram commémoratif des 400 ans de la Marine Nationale, réalisé lors d'un stage
+      de deux mois à La Chaîne Varoise, chaîne de télévision locale.
+      Design vectoriel sobre, composition typographique épurée et traitement
+      couleur froid au service d'un registre institutionnel.
+    </p>
+  </div>
+
+  <!-- COMPÉTENCES -->
+  <div class="proj-comp-section">
+    <button class="comp-btn" id="compBtn">COMPÉTENCES MMI</button>
+  </div>
+
+  <footer class="proj-footer">
+    <span>© 2026 Axel Bureau</span>
+    <a href="https://www.instagram.com/aep.axell/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+
+  <!-- Modal -->
+  <div class="comp-modal-overlay" id="compOverlay"></div>
+  <div class="comp-modal" id="compModal">
+    <div class="comp-modal-handle"></div>
+    <button class="comp-modal-close" id="compClose">✕</button>
+    <div class="comp-modal-header">
+      <p class="comp-modal-title swell">Compétences MMI</p>
+      <p class="comp-modal-sub">BUT Métiers du Multimédia et de l'Internet</p>
+    </div>
+    <ul class="comp-list">
+      <li class="comp-item">
+        <span class="comp-item-tag">EXPRIMER</span>
+        <div class="comp-item-info">
+          <p class="comp-item-name">Exprimer un message par les médias</p>
+          <p class="comp-item-ac">AC : 23.02</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>
