@@ -71,7 +71,7 @@ const workCount     = document.getElementById('workCount');
 const dotsWrap      = document.getElementById('carouselDots');
 
 const N      = cards.length;
-const CARD_W = Math.min(window.innerWidth * 0.42, 550);
+const CARD_W = Math.max(Math.min(window.innerWidth * 0.42, 720), 240);
 const CARD_H = CARD_W * (9 / 16);
 const RADIUS = Math.max(
   (CARD_W / 2 + 20) / Math.sin(Math.PI / N),
