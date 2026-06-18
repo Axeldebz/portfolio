@@ -1074,24 +1074,55 @@ video, img, iframe { display: block; max-width: 100%; }
 /* =====================================================
    RESPONSIVE
 ===================================================== */
+
+/* ── Grand écran (1440px+) ── */
+@media (min-width: 1440px) {
+  #nav { padding: 32px 64px; }
+  .menu-overlay { padding: 32px 64px 48px; }
+  #about { padding: 200px 64px 120px; }
+  #contact { padding: 200px 64px 0; }
+  .about-content { gap: 100px; }
+  .about-body { padding-top: 100px; }
+  .about-icon { width: 100px; height: 100px; border-radius: 24px; }
+  .variant-btn { right: 64px; }
+  .physics-btn { right: 64px; bottom: 150px; }
+  .work-header, .section-header { padding: 0 64px; }
+  .project-title-wrap { bottom: 110px; }
+  .carousel-nav { bottom: 52px; }
+}
+
+/* ── Tablet (1024px) ── */
+@media (max-width: 1024px) {
+  #about { padding: 150px 32px 80px; }
+  #contact { padding: 150px 32px 0; }
+  .about-content { gap: 56px; }
+  .about-body { padding-top: 40px; }
+  .physics-btn { right: 32px; bottom: 100px; }
+  .project-title-wrap { bottom: 76px; }
+  .carousel-nav { bottom: 28px; }
+}
+
+/* ── Tablet portrait (900px) ── */
 @media (max-width: 900px) {
   .about-content { grid-template-columns: 1fr; gap: 40px; }
   .about-body { padding-top: 0; }
 }
 
+/* ── Mobile (680px) ── */
 @media (max-width: 680px) {
   #nav { padding: 22px 24px; }
   .menu-overlay { padding: 22px 24px 32px; }
   .menu-link { font-size: clamp(48px, 13vw, 90px); }
 
   .hero-scroll-cta { font-size: 18px; }
-  .variant-btn { right: 24px; bottom: 100px; }
+  .variant-btn { right: 24px; bottom: 108px; }
 
   .work-header { padding: 0 24px; }
   .work-label  { font-size: clamp(38px, 11vw, 72px); }
   .section-header { padding: 0 24px; }
   .section-big-label { font-size: clamp(38px, 11vw, 72px); }
-  .carousel-nav { gap: 20px; }
+  .carousel-nav { gap: 20px; bottom: 24px; }
+  .project-title-wrap { bottom: 72px; }
 
   #about { padding: 130px 24px 60px; }
   #contact { padding: 130px 24px 0; }
@@ -1111,4 +1142,35 @@ video, img, iframe { display: block; max-width: 100%; }
   .g-screen { padding: 40px 28px; }
   .g-bigtitle { font-size: 56px; }
   .g-quit { top: 18px; right: 20px; }
+}
+
+/* ── Petit mobile (480px) ── */
+@media (max-width: 480px) {
+  .about-name { font-size: clamp(48px, 14vw, 78px); }
+  .about-bio { font-size: 15px; line-height: 1.72; }
+  .about-body { gap: 32px; }
+  .tool-text { font-size: clamp(17px, 5.5vw, 26px); }
+  .tool-sep  { font-size: 22px; }
+  .skill-default { font-size: clamp(17px, 5.5vw, 28px); }
+  .skill-alt     { font-size: clamp(14px, 4.5vw, 22px); }
+
+  .variant-btn { right: 20px; bottom: 118px; font-size: 9px; }
+  .hero-scroll-cta { font-size: 15px; letter-spacing: 0.07em; }
+
+  .project-title-wrap { bottom: 60px; }
+  .project-title { font-size: clamp(28px, 8vw, 52px); }
+  .carousel-nav { bottom: 14px; gap: 14px; }
+  .carousel-dot { width: 4px; height: 4px; }
+  .carousel-dot.active { width: 14px; }
+  .carousel-nav-btn { font-size: 10px; letter-spacing: 0.16em; }
+
+  .contact-insta { font-size: clamp(17px, 5.2vw, 28px); }
+  .contact-email { font-size: 11px; }
+
+  .about-icon { width: 52px; height: 52px; border-radius: 14px; }
+  .about-bubble { width: 80px; height: 80px; }
+  .contact-bubble { width: 88px; height: 88px; }
+
+  .g-screen { padding: 32px 20px; }
+  .g-hint { font-size: 13px; }
 }

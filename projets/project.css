@@ -404,14 +404,59 @@
 .proj-footer a { color: inherit; text-decoration: none; }
 
 /* ── Responsive ── */
+
+/* Grand écran (1440px+) */
+@media (min-width: 1440px) {
+  .proj-back { left: 64px; top: 100px; }
+  .proj-content { padding: 88px 64px 60px; max-width: 960px; }
+  .proj-media { padding: 0 64px 88px; max-width: 960px; }
+  .proj-comp-section { padding: 56px 64px 100px; max-width: 960px; }
+  .proj-phone-section { padding: 60px 64px 100px; }
+  .proj-h1 { font-size: clamp(56px, 7vw, 110px); }
+  .proj-vid-btn { width: 44px; height: 44px; }
+}
+
+/* Tablet (1024px) */
+@media (max-width: 1024px) {
+  .proj-content { padding: 64px 32px 40px; }
+  .proj-media { padding: 0 32px 56px; }
+  .proj-comp-section { padding: 40px 32px 72px; }
+  .proj-phone-section { padding: 40px 32px 72px; }
+  .proj-panels-carousel { height: clamp(260px, 44vh, 460px); }
+  .proj-hero--portrait video { max-width: 52vw; }
+}
+
+/* Mobile (640px) */
 @media (max-width: 640px) {
   .proj-back { left: 20px; top: 82px; font-size: 11px; }
-  .proj-content { padding: 56px 20px 36px; }
-  .proj-media { padding: 0 20px 48px; }
-  .proj-comp-section { padding: 16px 20px 60px; }
-  .proj-phone-section { padding: 32px 20px 48px; }
+  .proj-content { padding: 52px 20px 32px; }
+  .proj-media { padding: 0 20px 44px; }
+  .proj-comp-section { padding: 12px 20px 56px; }
+  .proj-phone-section { padding: 28px 20px 44px; }
   .proj-media-grid { grid-template-columns: 1fr; }
   .comp-modal { padding: 28px 20px 48px; }
   .proj-hero--portrait video { max-width: 80vw; }
   .proj-video-controls { bottom: 16px; right: 16px; }
+  .proj-panels-carousel { height: clamp(220px, 40vh, 380px); margin-bottom: 56px; }
+  .pcar-slide { padding: 16px 28px; }
+  .proj-phone { width: min(300px, 78vw); border-radius: 32px; }
+}
+
+/* Petit mobile (480px) */
+@media (max-width: 480px) {
+  .proj-back { left: 16px; top: 78px; font-size: 10px; letter-spacing: 0.16em; }
+  .proj-h1 { font-size: clamp(38px, 10vw, 64px); }
+  .proj-desc { font-size: 14px; line-height: 1.8; }
+  .proj-content { padding: 44px 16px 28px; }
+  .proj-media { padding: 0 16px 36px; }
+  .proj-comp-section { padding: 8px 16px 48px; }
+  .proj-phone-section { padding: 20px 16px 36px; }
+  .proj-phone { width: min(280px, 84vw); border-radius: 28px; }
+  .proj-vid-btn { width: 34px; height: 34px; }
+  .proj-video-controls { bottom: 12px; right: 12px; gap: 5px; }
+  .comp-btn { font-size: 9px; padding: 11px 20px; }
+  .comp-modal { padding: 24px 16px 44px; border-radius: 20px 20px 0 0; }
+  .comp-modal-title { font-size: clamp(22px, 6vw, 32px); }
+  .proj-rule { margin-left: 16px; }
+  .proj-footer { padding: 22px 16px; font-size: 9px; }
 }
