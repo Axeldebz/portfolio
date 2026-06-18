@@ -1162,3 +1162,273 @@ video, img, iframe { display: block; max-width: 100%; }
   .g-screen { padding: 32px 20px; }
   .g-hint { font-size: 13px; }
 }
+
+/* =====================================================
+   JUKEBOX
+===================================================== */
+#jukebox {
+  position: fixed;
+  bottom: clamp(24px, 3vw, 40px);
+  left: clamp(24px, 3vw, 40px);
+  z-index: 590;
+}
+
+/* ── Toggle button ── */
+#jukeboxToggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 16, 10, 0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.18s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28);
+}
+#jukeboxToggle:hover {
+  background: rgba(20, 16, 10, 0.96);
+  color: #fff;
+  transform: scale(1.06);
+}
+#jukeboxToggle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Playing pulse ring */
+#jukeboxToggle.playing::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.28);
+  animation: juke-pulse 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes juke-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  60%       { opacity: 0;   transform: scale(1.35); }
+}
+
+/* ── Tooltip ── */
+.juke-tooltip {
+  position: absolute;
+  left: calc(100% + 11px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-5px);
+  background: rgba(20, 16, 10, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-b);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 6px 13px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.10);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s, transform 0.18s;
+}
+#jukebox:not(.juke--open) #jukeboxToggle:hover .juke-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ── Panel ── */
+#jukeboxPanel {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  background: rgba(18, 14, 8, 0.90);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  min-width: 260px;
+  max-width: min(290px, calc(100vw - 48px));
+  color: rgba(255,255,255,0.88);
+  box-shadow: 0 16px 56px rgba(0,0,0,0.42);
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  pointer-events: none;
+  transform-origin: bottom left;
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+}
+#jukeboxPanel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* ── Track info ── */
+.juke-track {
+  margin-bottom: 13px;
+  overflow: hidden;
+}
+#jukeArtist {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#jukeTitle {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 252px;
+}
+
+/* ── Controls row ── */
+.juke-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.juke-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.60);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.14s, color 0.14s, transform 0.1s;
+  flex-shrink: 0;
+}
+.juke-btn:hover { background: rgba(255,255,255,0.16); color: #fff; }
+.juke-btn:active { transform: scale(0.91); }
+.juke-btn svg { width: 12px; height: 12px; display: block; }
+
+.juke-btn--play {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.85);
+}
+.juke-btn--play:hover { background: rgba(255,255,255,0.24); }
+.juke-btn--play svg { width: 14px; height: 14px; }
+
+/* 18+ tooltip on play button */
+.juke-play-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.juke-18 {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(200, 40, 40, 0.92);
+  color: #fff;
+  font-family: var(--font-b);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 100px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s, transform 0.14s;
+}
+.juke-play-wrap:hover .juke-18 {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Volume ── */
+.juke-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.juke-vol-wrap svg {
+  width: 13px;
+  height: 13px;
+  opacity: 0.40;
+  flex-shrink: 0;
+  color: #fff;
+}
+#jukeVol {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.18);
+  outline: none;
+  cursor: pointer;
+}
+#jukeVol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.12);
+  transition: transform 0.1s;
+}
+#jukeVol::-webkit-slider-thumb:hover { transform: scale(1.2); }
+#jukeVol::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: none;
+}
+
+/* ── Eye-off / hide button ── */
+.juke-btn--eye {
+  background: transparent;
+  border-color: rgba(255,255,255,0.07);
+}
+.juke-btn--eye svg { width: 13px; height: 13px; }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  #jukebox {
+    bottom: 20px;
+    left: 20px;
+  }
+  #jukeboxToggle { width: 40px; height: 40px; }
+  #jukeboxToggle svg { width: 16px; height: 16px; }
+  #jukeboxPanel { min-width: 0; padding: 14px 15px 12px; border-radius: 14px; }
+  #jukeTitle { font-size: 12.5px; }
+  .juke-btn { width: 28px; height: 28px; }
+  .juke-btn--play { width: 33px; height: 33px; }
+}
