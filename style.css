@@ -1112,6 +1112,7 @@ a.physics-btn { text-decoration: none; }
   display: none; position: absolute; inset: 0; z-index: 3;
   flex-direction: column; align-items: stretch;
   transition: opacity 0.18s;
+  overflow-y: auto;
 }
 
 /* Top bar */

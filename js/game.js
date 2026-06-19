@@ -60,7 +60,7 @@ var T = [
    l:"Direction le soleil, on laisse la grisaille bien derriere nous",lang:'fr'},
 
   /* ── DINOS ──────────────────────────────────────────────────────── */
-  {f:'DINOS feat. JOLAGREEN23 & LA MANO 1.9 - D BLOCK AFRIQUE.m4a',a:'DINOS',t:'D Block Afrique',al:null,y:null,
+  {f:'DINOS feat. JOLAGREEN23 & LA MANO 1.9 - D BLOCK AFRIQUE.m4a',a:'DINOS',t:'D Block Afrique',al:'Kintsugi',y:2024,
    l:"On porte le nom de nos rues partout ou l'on va, fier de nos origines",lang:'fr'},
   {f:'Dinos feat. Josman - Chelsea.m4a',a:'DINOS',t:'Chelsea',al:'Kintsugi',y:2024,
    l:"Dans ce coin de Londres, on a grave nos noms dans la pierre",lang:'fr'},
@@ -84,9 +84,9 @@ var T = [
    l:"I got a good girl and she's worth every mile",lang:'en'},
 
   /* ── HAMZA ──────────────────────────────────────────────────────── */
-  {f:'HAMZA - COME & SEE ME.m4a',a:'HAMZA',t:'Come & See Me',al:'Paradise',y:2019,
+  {f:'HAMZA - COME & SEE ME.m4a',a:'HAMZA',t:'Come & See Me',al:null,y:null,
    l:"J'ai tout prepare, les lumieres sont allumees, j'attends juste toi",lang:'fr'},
-  {f:'HAMZA - OSCAR DE LA HOYA.m4a',a:'HAMZA',t:'Oscar De La Hoya',al:'Sincerement',y:2023,
+  {f:'HAMZA - OSCAR DE LA HOYA.m4a',a:'HAMZA',t:'Oscar De La Hoya',al:null,y:null,
    l:"Je frappe avec precision comme un champion en fin de carriere",lang:'fr'},
 
   /* ── HOUDI ──────────────────────────────────────────────────────── */
@@ -94,7 +94,7 @@ var T = [
    l:"C'est la que je me ressource, personne ne peut entrer dans cet endroit",lang:'fr'},
   {f:'HOUDI - PEINE.m4a',a:'HOUDI',t:'Peine',al:null,y:null,
    l:"Je souris pour les autres mais la nuit j'affronte ca tout seul",lang:'fr'},
-  {f:'HOUDI - SCORE.m4a',a:'HOUDI',t:'Score',al:'Hood Volume.1',y:2024,
+  {f:'HOUDI - SCORE.m4a',a:'HOUDI',t:'Score',al:null,y:null,
    l:"Je compte mes victoires une a une, chaque point compte dans ce jeu",lang:'fr'},
   {f:'HOUDI feat. FAVE - Pas les mots.m4a',a:'HOUDI',t:'Pas Les Mots',al:null,y:null,
    l:"Il y a des choses qu'on ressent mais qu'on n'arrive pas a dire",lang:'fr'},
@@ -106,7 +106,7 @@ var T = [
   /* ── JOLAGREEN23 ────────────────────────────────────────────────── */
   {f:'JOLAGREEN23 - 12HEURES MINUIT.m4a',a:'JOLAGREEN23',t:'12 Heures Minuit',al:null,y:null,
    l:"A l'heure pile ou la ville change de visage, je commence ma session",lang:'fr'},
-  {f:'JOLAGREEN23 - 360TRICKSHOT.m4a',a:'JOLAGREEN23',t:'360Trickshot',al:'RECHERCHE&DESTRUCTION',y:2023,
+  {f:'JOLAGREEN23 - 360TRICKSHOT.m4a',a:'JOLAGREEN23',t:'360Trickshot',al:'+99XP',y:2024,
    l:"Je vise et j'atteins ma cible au premier essai, sans hesiter",lang:'fr'},
   {f:'JOLAGREEN23 - APPEL D\'UN BRO.m4a',a:'JOLAGREEN23',t:"Appel D'Un Bro",al:null,y:null,
    l:"Trois heures du mat, mon telephone sonne, je reponds toujours present",lang:'fr'},
@@ -114,7 +114,7 @@ var T = [
    l:"Lent mais mortel, je patiente avant de frapper au moment precis",lang:'fr'},
   {f:'JOLAGREEN23 - FOUTULESEUM.m4a',a:'JOLAGREEN23',t:'Foutuleseum',al:null,y:null,
    l:"Tout le monde est alle voir ailleurs, moi je suis reste dans ma zone",lang:'fr'},
-  {f:'JOLAGREEN23 - GANGTAKA.m4a',a:'JOLAGREEN23',t:'Gangtaka',al:'RECHERCHE&DESTRUCTION',y:2023,
+  {f:'JOLAGREEN23 - GANGTAKA.m4a',a:'JOLAGREEN23',t:'Gangtaka',al:null,y:null,
    l:"On reste serre quoi qu'il arrive, c'est la regle depuis le depart",lang:'fr'},
   {f:'JOLAGREEN23 - SMACKDOWN VS RAW2009.m4a',a:'JOLAGREEN23',t:'Smackdown vs Raw 2009',al:'+99XP',y:2024,
    l:"Je me bats comme a l'epoque ou les jeux de catch etaient tout pour moi",lang:'fr'},
@@ -182,7 +182,7 @@ var T = [
   /* ── LAYLOW ─────────────────────────────────────────────────────── */
   {f:'LAYLOW - TRINITYVILLE.m4a',a:'LAYLOW',t:'Trinityville',al:'Trinity',y:2020,
    l:"La ville ne dort jamais, les neons eclairent nos visages toute la nuit",lang:'fr'},
-  {f:'LAYLOW feat. ALPHA WANN & WIT. - STUNTMEN.m4a',a:'LAYLOW',t:'Stuntmen',al:'Trinity',y:2020,
+  {f:'LAYLOW feat. ALPHA WANN & WIT. - STUNTMEN.m4a',a:'LAYLOW',t:'Stuntmen',al:null,y:null,
    l:"On a traverse le feu pour meriter le calme qui suit apres",lang:'fr'},
 
   /* ── Latto ──────────────────────────────────────────────────────── */
@@ -282,9 +282,9 @@ var T = [
    l:"Je suis focus, le monde exterieur n'existe plus quand je suis en creation",lang:'fr'},
 
   /* ── ZIAK ───────────────────────────────────────────────────────── */
-  {f:'ZIAK - CATWALK.m4a',a:'ZIAK',t:'Catwalk',al:'Chrome',y:2023,
+  {f:'ZIAK - CATWALK.m4a',a:'ZIAK',t:'Catwalk',al:null,y:null,
    l:"Je marche dans la rue comme si c'etait un podium, les yeux sur moi",lang:'fr'},
-  {f:'ZIAK - Garçons de café.m4a',a:'ZIAK',t:'Garcons De Cafe',al:'Chrome',y:2023,
+  {f:'ZIAK - Garçons de café.m4a',a:'ZIAK',t:'Garcons De Cafe',al:null,y:null,
    l:"On reste assis des heures a refaire le monde autour d'une table",lang:'fr'},
   {f:'ZIAK - Grabba.m4a',a:'ZIAK',t:'Grabba',al:null,y:null,
    l:"J'attrape toutes les opportunites que la vie me presente, rien ne m'echappe",lang:'fr'},
@@ -292,15 +292,15 @@ var T = [
    l:"Quand le soleil disparait je commence vraiment a vivre et a sentir les choses",lang:'fr'},
   {f:'ZIAK - Le crime parfait.m4a',a:'ZIAK',t:'Le Crime Parfait',al:'Chrome',y:2023,
    l:"Tout est calcule, rien n'est laisse au hasard dans ce que je fais",lang:'fr'},
-  {f:'ZIAK - Même pas un grincement.m4a',a:'ZIAK',t:'Meme Pas Un Grincement',al:'Akimbo',y:2021,
+  {f:'ZIAK - Même pas un grincement.m4a',a:'ZIAK',t:'Meme Pas Un Grincement',al:'Chrome',y:2023,
    l:"Aucun bruit, je passe comme une ombre dans la nuit sans laisser de trace",lang:'fr'},
-  {f:'ZIAK feat. JOSMAN - Room.m4a',a:'ZIAK',t:'Room',al:'Chrome',y:2023,
+  {f:'ZIAK feat. JOSMAN - Room.m4a',a:'ZIAK',t:'Room',al:null,y:null,
    l:"Dans cette piece on cree quelque chose qui nous depasse tous les deux",lang:'fr'},
-  {f:'ZIAK feat. ZEU - Zulu.m4a',a:'ZIAK',t:'Zulu',al:'Akimbo',y:2021,
+  {f:'ZIAK feat. ZEU - Zulu.m4a',a:'ZIAK',t:'Zulu',al:null,y:null,
    l:"Je porte en moi les racines de mes ancetres, ca guide chaque pas que je fais",lang:'fr'},
   {f:'Ziak - Akimbo.m4a',a:'ZIAK',t:'Akimbo',al:'Akimbo',y:2021,
    l:"Je me tiens droit face au monde, rien ne peut m'ebranler quand je suis la",lang:'fr'},
-  {f:'Ziak - Bad Bad.m4a',a:'ZIAK',t:'Bad Bad',al:'Akimbo',y:2021,
+  {f:'Ziak - Bad Bad.m4a',a:'ZIAK',t:'Bad Bad',al:null,y:null,
    l:"Je reste redoutable pour ceux qui pensaient que j'allais m'effacer",lang:'fr'},
   {f:'Ziak - Chrome.m4a',a:'ZIAK',t:'Chrome',al:'Chrome',y:2023,
    l:"Ca brille sous les projecteurs, j'etais fait pour etre sur cette scene",lang:'fr'},
@@ -569,14 +569,23 @@ function onAnswer(chosen, correct) {
 
   revealChoices(chosen, correct);
 
-  /* Le titre s'affiche SEULEMENT dans le feedback, jamais dans la citation */
-  var songHint = (mode === 'lyrics' || mode === 'album') ? ' — ' + tr.t : '';
-  FB_TEXT.textContent = ok
-    ? 'BONNE REPONSE !' + songHint
-    : 'C\'etait ' + correct + songHint;
+  /* Format par mode :
+     lyrics  → "BONNE REPONSE !  Artiste - Titre" / "C'etait Artiste - Titre"
+     album   → "BONNE REPONSE !" / "C'etait Artiste"   (pas le titre, c'est l'album la question)
+     classic → "BONNE REPONSE !  — Titre" / "C'etait Artiste — Titre"  (revele le son) */
+  if (mode === 'lyrics') {
+    FB_TEXT.textContent = (ok ? 'BONNE REPONSE !  ' : 'C\'etait ') + tr.a + ' — ' + tr.t;
+  } else if (mode === 'album') {
+    FB_TEXT.textContent = ok ? 'BONNE REPONSE !' : 'C\'etait ' + correct;
+  } else {
+    FB_TEXT.textContent = (ok ? 'BONNE REPONSE !  —  ' : 'C\'etait ' + correct + '  —  ') + tr.t;
+  }
   FEEDBACK.className = 'bt-feedback bt--visible ' + (ok ? 'bt--correct' : 'bt--wrong');
 
-  setTimeout(function () { NEXT_BTN.style.display = 'block'; }, 700);
+  setTimeout(function () {
+    NEXT_BTN.style.display = 'block';
+    FEEDBACK.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, 300);
 }
 
 function autoWrong(tr) {
@@ -588,10 +597,18 @@ function autoWrong(tr) {
     b.disabled = true;
     if (b.dataset.a === tr.a) b.classList.add('bt--correct');
   });
-  var songHint = (mode === 'lyrics' || mode === 'album') ? ' — ' + tr.t : '';
-  FB_TEXT.textContent = 'Trop lent ! ' + tr.a + songHint;
+  if (mode === 'lyrics') {
+    FB_TEXT.textContent = 'Trop lent !  ' + tr.a + ' — ' + tr.t;
+  } else if (mode === 'album') {
+    FB_TEXT.textContent = 'Trop lent ! C\'etait ' + tr.a;
+  } else {
+    FB_TEXT.textContent = 'Trop lent ! C\'etait ' + tr.a + '  —  ' + tr.t;
+  }
   FEEDBACK.className  = 'bt-feedback bt--visible bt--wrong';
-  setTimeout(function () { NEXT_BTN.style.display = 'block'; }, 700);
+  setTimeout(function () {
+    NEXT_BTN.style.display = 'block';
+    FEEDBACK.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, 300);
 }
 
 function revealChoices(chosen, correct) {
