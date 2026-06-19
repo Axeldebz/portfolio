@@ -29,6 +29,17 @@ if (compBtn && compModal && compOverlay) {
   if (compClose) compClose.addEventListener('click', closeModal);
 }
 
+/* ── Navigation avec transition ── */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || a.target === '_blank' || href.startsWith('http')) return;
+  e.preventDefault();
+  if (window.self !== window.top) window.parent.postMessage({ type: 'navStart' }, '*');
+  setTimeout(() => { window.location.href = href; }, 260);
+}, true);
+
 /* ── Hero video controls (auto-injected) ── */
 const PLAY_SVG  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const PAUSE_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;

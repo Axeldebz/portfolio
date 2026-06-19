@@ -18,7 +18,7 @@
     }
   </style>
 </head>
-<body>
+<body class="shell-body">
 
   <!-- Anti-recursion : si ce shell se charge dans sa propre iframe
        (ex. lien "← WORK" depuis une page projet), on redirige vers home.html -->
@@ -65,5 +65,23 @@
   </script>
 
   <script src="js/jukebox.js"></script>
+
+  <script>
+    /* ── Overlay de transition entre pages ── */
+    (function () {
+      const ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;z-index:990;background:#F5F0E8;opacity:0;pointer-events:none;transition:opacity 0.24s ease;';
+      document.body.appendChild(ov);
+
+      function showOv() { ov.style.opacity = '1'; ov.style.pointerEvents = 'all'; }
+      function hideOv() { ov.style.opacity = '0'; setTimeout(() => { ov.style.pointerEvents = 'none'; }, 240); }
+
+      window.addEventListener('message', e => { if (e.data && e.data.type === 'navStart') showOv(); });
+
+      const frame = document.getElementById('pf');
+      const _origLoad = frame.onload;
+      frame.addEventListener('load', () => setTimeout(hideOv, 40));
+    })();
+  </script>
 </body>
 </html>

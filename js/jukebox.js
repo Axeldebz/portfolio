@@ -181,7 +181,7 @@
 
   /* ── Audio ── */
   const audio = new Audio();
-  audio.volume = 0.7;
+  audio.volume = 0.49;
   let idx     = 0;
   let started = false;
 
@@ -206,6 +206,44 @@
   audio.addEventListener('ended', () => loadTrack(idx + 1, true));
   audio.addEventListener('play',  syncBtn);
   audio.addEventListener('pause', syncBtn);
+
+  /* ── Visualiseur basse (Web Audio API) ──
+     captureStream() : copie le flux sans détourner la sortie audio native.
+     La musique joue toujours normalement même si l'AudioContext est suspendu. */
+  let audioCtx, analyser = null, freqData = null, bassRaf = null;
+
+  function initViz() {
+    if (audioCtx !== undefined) {
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+      return;
+    }
+    audioCtx = null; // tenté, échoué par défaut
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC || typeof audio.captureStream !== 'function') return;
+    try {
+      const ctx = new AC();
+      const an  = ctx.createAnalyser();
+      an.fftSize = 128;
+      an.smoothingTimeConstant = 0.82;
+      ctx.createMediaStreamSource(audio.captureStream()).connect(an);
+      ctx.resume().catch(() => {});
+      audioCtx = ctx; analyser = an; freqData = new Uint8Array(an.frequencyBinCount);
+    } catch (_) {}
+  }
+
+  function animBass() {
+    bassRaf = requestAnimationFrame(animBass);
+    if (!analyser) return;
+    analyser.getByteFrequencyData(freqData);
+    const bass = (freqData[0] + freqData[1] + freqData[2] + freqData[3] + freqData[4]) / (5 * 255);
+    const g = Math.pow(Math.max(0, bass - 0.04), 0.65);
+    toggle.style.boxShadow = g > 0.02
+      ? '0 4px 24px rgba(0,0,0,0.28), 0 0 ' + ((g * 52) | 0) + 'px rgba(255,255,255,' + (g * 0.52).toFixed(2) + '), 0 0 ' + ((g * 110) | 0) + 'px rgba(255,255,255,' + (g * 0.18).toFixed(2) + ')'
+      : '';
+  }
+
+  audio.addEventListener('play',  () => { if (!bassRaf) bassRaf = requestAnimationFrame(animBass); });
+  audio.addEventListener('pause', () => { cancelAnimationFrame(bassRaf); bassRaf = null; toggle.style.boxShadow = ''; });
 
   /* ── Hover panel ── */
   let isOpen      = false;
@@ -260,8 +298,10 @@
   toggle.addEventListener('click', () => {
     if (!started) {
       started = true;
+      initViz();
       loadTrack(idx, true);
     } else if (audio.paused) {
+      initViz();
       audio.play().catch(() => {});
     } else {
       audio.pause();
@@ -283,8 +323,10 @@
   btnPlay.addEventListener('click', () => {
     if (!started) {
       started = true;
+      initViz();
       loadTrack(idx, true);
     } else if (audio.paused) {
+      initViz();
       audio.play().catch(() => {});
     } else {
       audio.pause();
@@ -301,7 +343,7 @@
     else { idx = (idx + 1) % TRACKS.length; setInfo(); }
   });
 
-  volInput.addEventListener('input', () => { audio.volume = +volInput.value; });
+  volInput.addEventListener('input', () => { const v = +volInput.value; audio.volume = v * v; });
 
   /* ── Init ── */
   setInfo();

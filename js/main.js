@@ -71,7 +71,7 @@ const workCount     = document.getElementById('workCount');
 const dotsWrap      = document.getElementById('carouselDots');
 
 const N      = cards.length;
-const CARD_W = Math.max(Math.min(window.innerWidth * 0.42, 720), 240);
+const CARD_W = Math.max(Math.min(window.innerWidth * 0.38, window.innerHeight * 0.58, 660), 220);
 const CARD_H = CARD_W * (9 / 16);
 const RADIUS = Math.max(
   (CARD_W / 2 + 20) / Math.sin(Math.PI / N),
@@ -243,12 +243,53 @@ cards.forEach(c => {
 setTitle(0);
 goToCard(0);
 
+// Drag-to-scroll on carousel
+let cDragStartX = 0, cDragStartY = 0, cDragStartScrollY = 0;
+let cDragging = false, cDidDrag = false, cDragLock = null;
+const carouselWrap = document.querySelector('.carousel-wrap');
+
+function onDragMove(e) {
+  if (!cDragging) return;
+  const dx = e.clientX - cDragStartX, dy = e.clientY - cDragStartY;
+  if (!cDragLock && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+    cDragLock = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+  }
+  if (cDragLock === 'h') {
+    cDidDrag = true;
+    window.scrollTo(0, cDragStartScrollY - dx * 8);
+  }
+}
+
+function onDragEnd() {
+  if (!cDragging) return;
+  cDragging = false;
+  carouselWrap.classList.remove('dragging');
+  document.removeEventListener('pointermove', onDragMove);
+  document.removeEventListener('pointerup',   onDragEnd);
+  if (cDragLock === 'h' && cDidDrag) requestAnimationFrame(() => scrollToCard(activeIdx));
+}
+
+carouselWrap.addEventListener('pointerdown', e => {
+  if (e.button !== 0) return;
+  cDragging = true; cDidDrag = false; cDragLock = null;
+  cDragStartX = e.clientX; cDragStartY = e.clientY;
+  cDragStartScrollY = window.scrollY;
+  carouselWrap.classList.add('dragging');
+  document.addEventListener('pointermove', onDragMove);
+  document.addEventListener('pointerup',   onDragEnd);
+});
+
+carouselWrap.addEventListener('dragstart', e => e.preventDefault());
+
 // Click active card → navigate to project page
 cards.forEach(card => {
   card.addEventListener('click', () => {
+    if (cDidDrag) return;
     if (!card.classList.contains('active')) return;
     const href = card.dataset.href;
-    if (href) window.location.href = href;
+    if (!href) return;
+    window.parent?.postMessage({ type: 'navStart' }, '*');
+    setTimeout(() => { window.location.href = href; }, 260);
   });
 });
 

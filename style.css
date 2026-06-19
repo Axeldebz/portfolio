@@ -41,13 +41,19 @@ html {
   scroll-behavior: smooth;
   background: #1C1810; /* overscroll bounce shows dark, not cream */
 }
+@keyframes page-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 body {
   font-family: var(--font-b);
   background: var(--cream);
   color: var(--dark);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  animation: page-enter 0.4s ease both;
 }
+body.shell-body { animation: none; }
 a { text-decoration: none; color: inherit; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
 video, img, iframe { display: block; max-width: 100%; }
@@ -170,7 +176,7 @@ video, img, iframe { display: block; max-width: 100%; }
 
 .menu-link {
   font-family: var(--font-d);
-  font-size: clamp(64px, 11vw, 200px);
+  font-size: clamp(44px, min(8vw, 13vh), 140px);
   line-height: 0.95;
   color: var(--dark);
   display: flex;
@@ -429,7 +435,10 @@ video, img, iframe { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: grab;
+  user-select: none;
 }
+.carousel-wrap.dragging { cursor: grabbing; }
 
 .carousel-perspective {
   perspective: 1800px;
@@ -476,6 +485,8 @@ video, img, iframe { display: block; max-width: 100%; }
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 .card-inner--iframe {
   background: #0a0a0a;
@@ -1188,7 +1199,7 @@ video, img, iframe { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, transform 0.18s, box-shadow 0.2s;
+  transition: background 0.2s, transform 0.18s;
   box-shadow: 0 4px 24px rgba(0,0,0,0.28);
 }
 #jukeboxToggle:hover {
