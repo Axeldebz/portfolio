@@ -256,7 +256,7 @@ function onDragMove(e) {
   }
   if (cDragLock === 'h') {
     cDidDrag = true;
-    window.scrollTo(0, cDragStartScrollY - dx * 8);
+    window.scrollTo(0, cDragStartScrollY - dx * 5);
   }
 }
 
