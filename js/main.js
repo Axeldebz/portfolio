@@ -197,16 +197,8 @@ function onScroll() {
   // ── Gradient interpolé pixel par pixel selon le scroll ──
   workSection.style.background = gradientAt(rawIdx);
 
-  // ── Titre : opacité + léger décalage Y piloté par le scroll ──
-  const nearest   = Math.round(rawIdx);
-  const dist      = Math.abs(rawIdx - nearest);        // 0 au centre, 0.5 au milieu
-  const titleOp   = Math.max(0, 1 - dist * 2.6);      // s'efface avant le changement
-  const titleShiftY = (rawIdx - nearest) * 16;         // légère montée/descente
-  titleEl.style.opacity   = titleOp.toFixed(3);
-  typeEl.style.opacity    = titleOp.toFixed(3);
-  titleEl.style.transform = `translateY(${titleShiftY.toFixed(1)}px)`;
-
-  const idx = Math.min(nearest, N - 1);
+  const nearest = Math.round(rawIdx);
+  const idx     = Math.min(nearest, N - 1);
   if (idx !== activeIdx) goToCard(idx);
 }
 let _scrollPending = false;
@@ -402,6 +394,15 @@ function tick() {
   // ── Carousel ──
   currentAngle += (targetAngle - currentAngle) * 0.055;
   track.style.transform = `rotateY(${currentAngle}deg)`;
+
+  // ── Titre : opacité calée sur la rotation visuelle (pas le scroll) ──
+  const vRawIdx  = -(currentAngle / 360) * N;
+  const vNearest = Math.min(N - 1, Math.max(0, Math.round(vRawIdx)));
+  const vDist    = Math.abs(vRawIdx - vNearest);
+  const titleOp  = vDist < 0.05 ? 1 : Math.max(0, 1 - vDist * 2.6);
+  titleEl.style.opacity   = titleOp.toFixed(3);
+  typeEl.style.opacity    = titleOp.toFixed(3);
+  titleEl.style.transform = `translateY(${((vRawIdx - vNearest) * 16).toFixed(1)}px)`;
 
   // ── Deco ──
   decoT += 0.016;
