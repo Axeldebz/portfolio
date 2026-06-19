@@ -249,15 +249,15 @@ let cDragging = false, cDidDrag = false, cDragLock = null;
 const carouselWrap = document.querySelector('.carousel-wrap');
 
 function onDragMove(e) {
-  if (!cDragging) return;
-  const dx = e.clientX - cDragStartX, dy = e.clientY - cDragStartY;
-  if (!cDragLock && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
-    cDragLock = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-  }
-  if (cDragLock === 'h') {
-    cDidDrag = true;
-    window.scrollTo(0, cDragStartScrollY - dx * 5);
-  }
+  if (!cDragging || cDidDrag) return;
+  const dx = e.clientX - cDragStartX;
+  const dy = e.clientY - cDragStartY;
+  if (Math.abs(dx) < 30 || Math.abs(dx) < Math.abs(dy)) return;
+  cDidDrag = true;
+  const targetIdx = dx < 0
+    ? Math.min(activeIdx + 1, N - 1)
+    : Math.max(activeIdx - 1, 0);
+  scrollToCard(targetIdx);
 }
 
 function onDragEnd() {
@@ -266,7 +266,6 @@ function onDragEnd() {
   carouselWrap.classList.remove('dragging');
   document.removeEventListener('pointermove', onDragMove);
   document.removeEventListener('pointerup',   onDragEnd);
-  if (cDragLock === 'h' && cDidDrag) requestAnimationFrame(() => scrollToCard(activeIdx));
 }
 
 carouselWrap.addEventListener('pointerdown', e => {
