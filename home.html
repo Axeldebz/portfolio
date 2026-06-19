@@ -321,34 +321,77 @@
     </footer>
   </section>
 
-  <!-- ═══ MINI-JEU ICON RUSH ════════════════════════════ -->
+  <!-- ═══ BLIND TEST ════════════════════════════ -->
   <div id="gameOverlay">
-    <canvas id="gameCanvas"></canvas>
 
-    <!-- HUD (visible en jeu) -->
-    <div class="g-hud" id="gHud">
-      <div class="g-score">
-        <span class="g-label">SCORE</span>
-        <span class="swell" id="gScore">0</span>
-      </div>
-      <div class="g-combo swell" id="gCombo"></div>
-      <div class="g-lives" id="gLives">❤❤❤</div>
-    </div>
-
-    <!-- Écran démarrage -->
+    <!-- Sélection du mode -->
     <div class="g-screen" id="gPanelStart">
       <p class="g-eyebrow">Un jeu signé Axel</p>
-      <h2 class="swell g-bigtitle">DRIFT<br>RUSH</h2>
-      <p class="g-hint">Conduis à toute vitesse et évite les voitures<br><em>← → pour tourner &nbsp;·&nbsp; ↑ accélérer &nbsp;·&nbsp; ↓ freiner</em></p>
-      <button class="g-btn swell" id="gBtnStart">JOUER →</button>
+      <h2 class="swell g-bigtitle">BLIND<br>TEST</h2>
+      <p class="g-hint">Teste ta culture musicale<br><em>90+ sons de la radio perso</em></p>
+      <div class="bt-modes">
+        <button class="bt-mode-card" data-mode="classic">
+          <span class="bt-mc-icon">♪</span>
+          <span class="bt-mc-text">
+            <strong class="bt-mc-name">CLASSIQUE</strong>
+            <span class="bt-mc-desc">15s d'extrait — qui chante ?</span>
+          </span>
+        </button>
+        <button class="bt-mode-card" data-mode="lyrics">
+          <span class="bt-mc-icon">❝</span>
+          <span class="bt-mc-text">
+            <strong class="bt-mc-name">QUI A DIT ?</strong>
+            <span class="bt-mc-desc">Retrouve l'auteur des paroles</span>
+          </span>
+        </button>
+        <button class="bt-mode-card" data-mode="album">
+          <span class="bt-mc-icon">◉</span>
+          <span class="bt-mc-text">
+            <strong class="bt-mc-name">QUEL ALBUM ?</strong>
+            <span class="bt-mc-desc">Retrouve l'artiste derrière l'album</span>
+          </span>
+        </button>
+      </div>
     </div>
 
-    <!-- Écran game over -->
+    <!-- Manche en cours (plein écran) -->
+    <div id="gPanelGame">
+      <div class="bt-topbar">
+        <div class="bt-prog-wrap">
+          <span class="bt-round-lbl" id="btRoundLbl">1 / 5</span>
+          <div class="bt-prog-track"><div class="bt-prog-fill" id="btProgFill"></div></div>
+        </div>
+        <div class="bt-score-box">
+          <span class="g-label">SCORE</span>
+          <span class="bt-score-num swell" id="btScoreNum">0</span>
+        </div>
+      </div>
+
+      <div class="bt-question-wrap" id="btQuestionWrap"></div>
+
+      <div class="bt-choices" id="btChoices"></div>
+
+      <div class="bt-timer-wrap" id="btTimerWrap">
+        <div class="bt-timer-bar" id="btTimerBar"></div>
+      </div>
+
+      <div class="bt-feedback" id="btFeedback">
+        <span id="btFeedbackText"></span>
+      </div>
+
+      <button class="bt-next-btn" id="btNext">SUIVANT →</button>
+    </div>
+
+    <!-- Récap final -->
     <div class="g-screen" id="gPanelOver">
-      <p class="g-eyebrow">GAME OVER</p>
-      <div class="swell g-bigtitle" id="gFinalScore">0</div>
-      <p class="g-hint">Meilleur score : <strong id="gBestScore">0</strong></p>
-      <button class="g-btn swell" id="gBtnRetry">REJOUER →</button>
+      <p class="g-eyebrow">BILAN</p>
+      <div class="swell g-bigtitle" id="gFinalScore">— / 5</div>
+      <div class="bt-recap" id="btRecap"></div>
+      <div class="bt-end-btns">
+        <button class="g-btn swell" id="gBtnRetry">REJOUER →</button>
+        <button class="g-btn" id="btBtnModes">MODES</button>
+        <button class="g-btn" id="btBtnQuit">← PORTFOLIO</button>
+      </div>
     </div>
 
     <button class="g-quit" id="gBtnQuit">✕ QUITTER</button>

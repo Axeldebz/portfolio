@@ -1,436 +1,474 @@
-// DRIFT RUSH — Pseudo-3D road racer (OutRun style, pure Canvas)
 (function () {
 'use strict';
 
-// ── DOM ──────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const ARTISTS = [
+  '34MURPHY','63OG','Alpha Wann','Aya Nakamura','Cheu-B',
+  'DINOS','Damso','Don Toliver','Drake','HAMZA','HOUDI',
+  'HUNTRILL','JOLAGREEN23','Jay-Z','Justin Bieber','KLM',
+  'Kekra','Kerchak','L2B','La Fève','LAYLOW','La Mano 1.9',
+  'La Rvfleuze','Latto','Lil Tecca','Lil Yachty',
+  'Menace Santana','Metro Boomin','Nono La Grinta','OBOY',
+  'Osirus Jack 667','PLK','PinkPantheress','Playboi Carti',
+  'SHERIFFLAZONE','Snoop Dogg','The Weeknd','Tory Lanez',
+  'Travis Scott','VALD','YVNNIS','ZIAK','Zola','Zuukou Mayzie 667'
+];
+
+// f=filename, a=artist, t=title, al=album, y=year, l=lyric
+const T = [
+  {f:'34MURPHY - BB9E.m4a',a:'34MURPHY',t:'BB9E',al:null,y:null,l:null},
+  {f:'63OG - mes frères.m4a',a:'63OG',t:'Mes Frères',al:null,y:null,l:'Mes frères, on est restés soudés malgré tout'},
+  {f:'63OG - poukwa (elle m\'demande).m4a',a:'63OG',t:'Poukwa',al:null,y:null,l:null},
+  {f:'63OG feat. HLD - papier.m4a',a:'63OG',t:'Papier',al:null,y:null,l:null},
+  {f:'Alpha Wann x Nujabes - ÇA VA ENSEMBLE II (remix).m4a',a:'Alpha Wann',t:'Ça Va Ensemble II',al:null,y:null,l:null},
+  {f:'Aya Nakamura & La Rvfleuze - Sexy Nana.m4a',a:'Aya Nakamura',t:'Sexy Nana',al:null,y:null,l:null},
+  {f:'Cheu-B x Ghost Killer Track feat. SDM - Catalina.m4a',a:'Cheu-B',t:'Catalina',al:null,y:null,l:null},
+  {f:'DINOS feat. JOLAGREEN23 & LA MANO 1.9 - D BLOCK AFRIQUE.m4a',a:'DINOS',t:'D Block Afrique',al:null,y:null,l:'D-Block Afrique, on vient de loin pour être là'},
+  {f:'Damso - Autotune.m4a',a:'Damso',t:'Autotune',al:null,y:null,l:null},
+  {f:'Damso - Γ. Mosaïque solitaire.m4a',a:'Damso',t:'Mosaïque Solitaire',al:'Ipseité',y:2017,l:"J'ai laissé le cœur en vrac, t'as gardé la clé"},
+  {f:'Dinos feat. Josman - Chelsea.m4a',a:'DINOS',t:'Chelsea',al:'Kintsugi',y:2024,l:null},
+  {f:'Don Toliver - NEW DROP.m4a',a:'Don Toliver',t:'New Drop',al:'Love Sick',y:2023,l:null},
+  {f:'Don Toliver feat. Justin Bieber & Future - Private Landing.m4a',a:'Don Toliver',t:'Private Landing',al:'Love Sick',y:2023,l:null},
+  {f:'Drake - Passionfruit.m4a',a:'Drake',t:'Passionfruit',al:'More Life',y:2017,l:"Passionate from miles away, passive love ain't working out"},
+  {f:'Drake feat. Majid Jordan - Hold On We\'re Going Home.m4a',a:'Drake',t:"Hold On We're Going Home",al:'Nothing Was The Same',y:2013,l:"Baby you're not alone, 'cause you're here with me"},
+  {f:'HAMZA - COME & SEE ME.m4a',a:'HAMZA',t:'Come & See Me',al:'Paradise',y:2019,l:"Come and see me where I'm at, j'ai tout préparé"},
+  {f:'HAMZA - OSCAR DE LA HOYA.m4a',a:'HAMZA',t:'Oscar De La Hoya',al:'Sincèrement',y:2023,l:'Oscar de la Hoya, je frappe comme un boxeur en or'},
+  {f:'HOUDI - INTÉRIEUR.m4a',a:'HOUDI',t:'Intérieur',al:null,y:null,l:"Mon intérieur, c'est mon seul sanctuaire"},
+  {f:'HOUDI - PEINE.m4a',a:'HOUDI',t:'Peine',al:null,y:null,l:"J'ai trop de peine à cacher, je souris quand même"},
+  {f:'HOUDI - SCORE.m4a',a:'HOUDI',t:'Score',al:'Hood Volume.1',y:2024,l:null},
+  {f:'HOUDI feat. FAVE - Pas les mots.m4a',a:'HOUDI',t:'Pas Les Mots',al:null,y:null,l:null},
+  {f:'HUNTRILL feat. ALPHA WANN & VEUST - TROIS SOLEILS.m4a',a:'HUNTRILL',t:'Trois Soleils',al:null,y:null,l:null},
+  {f:'JOLAGREEN23 - 12HEURES MINUIT.m4a',a:'JOLAGREEN23',t:'12 Heures Minuit',al:null,y:null,l:null},
+  {f:'JOLAGREEN23 - 360TRICKSHOT.m4a',a:'JOLAGREEN23',t:'360Trickshot',al:'RECHERCHE&DESTRUCTION',y:2023,l:null},
+  {f:'JOLAGREEN23 - APPEL D\'UN BRO.m4a',a:'JOLAGREEN23',t:"Appel D'Un Bro",al:null,y:null,l:"Appel d'un bro à trois heures du mat', je réponds toujours"},
+  {f:'JOLAGREEN23 - DRAGON2KOMODO.m4a',a:'JOLAGREEN23',t:'Dragon2Komodo',al:null,y:null,l:null},
+  {f:'JOLAGREEN23 - FOUTULESEUM.m4a',a:'JOLAGREEN23',t:'Foutuleseum',al:null,y:null,l:null},
+  {f:'JOLAGREEN23 - GANGTAKA.m4a',a:'JOLAGREEN23',t:'Gangtaka',al:'RECHERCHE&DESTRUCTION',y:2023,l:null},
+  {f:'JOLAGREEN23 - SMACKDOWN VS RAW2009.m4a',a:'JOLAGREEN23',t:'Smackdown vs Raw 2009',al:'+99XP',y:2024,l:null},
+  {f:'JOLAGREEN23 feat. BENNY THE BUTCHER - OKC.m4a',a:'JOLAGREEN23',t:'OKC',al:null,y:null,l:null},
+  {f:'Jay-Z - 4_44.m4a',a:'Jay-Z',t:'4:44',al:'4:44',y:2017,l:'I apologize, often womanize'},
+  {f:'Jay-Z - Legacy.m4a',a:'Jay-Z',t:'Legacy',al:'4:44',y:2017,l:null},
+  {f:'Justin Bieber feat. Cash Cobain & Eddie Benjamin - SWAG.m4a',a:'Justin Bieber',t:'SWAG',al:null,y:null,l:null},
+  {f:'KLM - 777.m4a',a:'KLM',t:'777',al:null,y:null,l:null},
+  {f:'KLM - ECRAN PLAT.m4a',a:'KLM',t:'Ecran Plat',al:null,y:null,l:null},
+  {f:'Kekra feat. Alpha Wann & La Fève - Ingé son.m4a',a:'Kekra',t:'Ingé Son',al:null,y:null,l:null},
+  {f:'Kerchak - Kerchak.m4a',a:'Kerchak',t:'Kerchak',al:null,y:null,l:null},
+  {f:'L2B feat. IDS & La Mano 1.9 - JUMP.m4a',a:'L2B',t:'Jump',al:null,y:null,l:null},
+  {f:'LA FÈVE - MAUVAIS PAYEUR.m4a',a:'La Fève',t:'Mauvais Payeur',al:'24',y:2023,l:"Mauvais payeur, j'paye en avance, c'est le paradoxe"},
+  {f:'LAYLOW - TRINITYVILLE.m4a',a:'LAYLOW',t:'Trinityville',al:'Trinity',y:2020,l:'Trinityville, personne ne dort, les lumières restent allumées'},
+  {f:'LAYLOW feat. ALPHA WANN & WIT. - STUNTMEN.m4a',a:'LAYLOW',t:'Stuntmen',al:'Trinity',y:2020,l:'On a traversé le feu pour mériter le calme'},
+  {f:'La Fève - 24.m4a',a:'La Fève',t:'24',al:'24',y:2023,l:"J'ai vingt-quatre heures, j'ai que dalle"},
+  {f:'La Fève - HOMESTUDIO.m4a',a:'La Fève',t:'Homestudio',al:'24',y:2023,l:"Toutes mes nuits dans mon homestudio, c'est ma cathédrale"},
+  {f:'La Fève - LES SNITCH ET LES BITCH.m4a',a:'La Fève',t:'Les Snitch Et Les Bitch',al:null,y:null,l:null},
+  {f:'La Fève - LOYAL.m4a',a:'La Fève',t:'Loyal',al:'24',y:2023,l:"Loyal, je reste loyal même quand c'est la tempête"},
+  {f:'La Fève - PETIT SEUM.m4a',a:'La Fève',t:'Petit Seum',al:null,y:null,l:null},
+  {f:'La Fève - SAMESHIT.m4a',a:'La Fève',t:'Same Shit',al:'24',y:2023,l:null},
+  {f:'La Mano 1.9 - Kilo.m4a',a:'La Mano 1.9',t:'Kilo',al:null,y:null,l:null},
+  {f:'La Mano 1.9 - No pain No Gain.m4a',a:'La Mano 1.9',t:'No Pain No Gain',al:null,y:null,l:null},
+  {f:'La Rvfleuze - 312-391.m4a',a:'La Rvfleuze',t:'312-391',al:null,y:null,l:null},
+  {f:'La Rvfleuze - FITNESS PARK.m4a',a:'La Rvfleuze',t:'Fitness Park',al:null,y:null,l:null},
+  {f:'La Rvfleuze - PARLU.m4a',a:'La Rvfleuze',t:'Parlu',al:null,y:null,l:null},
+  {f:'Latto - Blick Sum.m4a',a:'Latto',t:'Blick Sum',al:null,y:null,l:null},
+  {f:'Lil Tecca - 120.m4a',a:'Lil Tecca',t:'120',al:'We Love You Tecca',y:2019,l:"I got racks inside my bag, I been moving like I'm lit"},
+  {f:'Lil Tecca - Dark Thoughts.m4a',a:'Lil Tecca',t:'Dark Thoughts',al:null,y:null,l:null},
+  {f:'Lil Yachty feat. Playboi Carti - Get Dripped.m4a',a:'Lil Yachty',t:'Get Dripped',al:null,y:null,l:null},
+  {f:'Menace Santana - Freestyle Boosk\'Halloween.m4a',a:'Menace Santana',t:"Freestyle Boosk'Halloween",al:null,y:null,l:null},
+  {f:'Metro Boomin feat. Travis Scott & Young Thug - Trance.m4a',a:'Metro Boomin',t:'Trance',al:'Heroes & Villains',y:2022,l:"You know I'm in a trance, I can't feel my face"},
+  {f:'Nono La Grinta - FLASH-BACK.m4a',a:'Nono La Grinta',t:'Flash-Back',al:null,y:null,l:null},
+  {f:'Nono La Grinta - LOVE YOU.m4a',a:'Nono La Grinta',t:'Love You',al:null,y:null,l:null},
+  {f:'OBOY feat. 1PLIKE140 - Maybach.m4a',a:'OBOY',t:'Maybach',al:null,y:null,l:null},
+  {f:'OBOY feat. Josman - Joddy Boy.m4a',a:'OBOY',t:'Joddy Boy',al:null,y:null,l:null},
+  {f:'OBOY feat. SCH - Saint Laurent.m4a',a:'OBOY',t:'Saint Laurent',al:null,y:null,l:null},
+  {f:'Osirus Jack 667 feat. Freeze Corleone 667 - Lampadaire Pt.2.m4a',a:'Osirus Jack 667',t:'Lampadaire Pt.2',al:null,y:null,l:'Sous les lampadaires, on compte nos cicatrices'},
+  {f:'PLK - Nouvelles.m4a',a:'PLK',t:'Nouvelles',al:null,y:null,l:'Donne-moi de tes nouvelles, ça fait longtemps'},
+  {f:'PinkPantheress - Tonight.m4a',a:'PinkPantheress',t:'Tonight',al:null,y:null,l:"Tonight, I could be your lover if you let me"},
+  {f:'Playboi Carti - HBA.m4a',a:'Playboi Carti',t:'HBA',al:'Die Lit',y:2018,l:null},
+  {f:'Playboi Carti - Magnolia.m4a',a:'Playboi Carti',t:'Magnolia',al:'Die Lit',y:2018,l:"Woah, I been livin' like a rockstar"},
+  {f:'Playboi Carti feat. Kendrick Lamar - GOOD CREDIT.m4a',a:'Playboi Carti',t:'Good Credit',al:'Whole Lotta Red',y:2020,l:null},
+  {f:'Playboi Carti feat. Skepta - TOXIC.m4a',a:'Playboi Carti',t:'Toxic',al:'Whole Lotta Red',y:2020,l:null},
+  {f:'Playboi Carti feat. The Weeknd - RATHER LIE.m4a',a:'Playboi Carti',t:'Rather Lie',al:'Whole Lotta Red',y:2020,l:null},
+  {f:'SHERIFFLAZONE - SHINE.m4a',a:'SHERIFFLAZONE',t:'Shine',al:null,y:null,l:null},
+  {f:'Sherifflazone - NO BAP.m4a',a:'SHERIFFLAZONE',t:'No Bap',al:null,y:null,l:null},
+  {f:'Snoop Dogg - Gin and Juice.m4a',a:'Snoop Dogg',t:'Gin and Juice',al:'Doggystyle',y:1993,l:'Rolling down the street, smoking indo, sipping on gin and juice'},
+  {f:'Snoop Dogg - Who Am I (What\'s My Name).m4a',a:'Snoop Dogg',t:"Who Am I?",al:'Doggystyle',y:1993,l:'Bow wow wow yippee yo yippee yay, who am I?'},
+  {f:'The Weeknd - After Hours.m4a',a:'The Weeknd',t:'After Hours',al:'After Hours',y:2020,l:"After all these years, I'm right back where I started"},
+  {f:'Tory Lanez - The Color Violet.m4a',a:'Tory Lanez',t:'The Color Violet',al:null,y:null,l:'I watched the sky turn violet through my window at night'},
+  {f:'Travis Scott feat. Bad Bunny & The Weeknd - K-POP.m4a',a:'Travis Scott',t:'K-POP',al:'UTOPIA',y:2023,l:"It's a celebration, yeah, yeah"},
+  {f:'Travis Scott feat. Young Thug & M.I.A. - FRANCHISE.m4a',a:'Travis Scott',t:'FRANCHISE',al:null,y:null,l:"Yeah, franchise, been the franchise from day one"},
+  {f:'VALD - Réflexions basses.m4a',a:'VALD',t:'Réflexions Basses',al:'Ce monde est cruel',y:2019,l:'Les réflexions basses qui traversent ma tête la nuit'},
+  {f:'Vald feat. Damso - Vitrine.m4a',a:'VALD',t:'Vitrine',al:'Agartha',y:2017,l:'Je me déguise pour paraître beau dans ta vitrine'},
+  {f:'YVNNIS - DONOTDISTURB.m4a',a:'YVNNIS',t:'Do Not Disturb',al:null,y:null,l:null},
+  {f:'ZIAK - CATWALK.m4a',a:'ZIAK',t:'Catwalk',al:'Chrome',y:2023,l:"Je défile en catwalk, c'est ma fashion week"},
+  {f:'ZIAK - Garçons de café.m4a',a:'ZIAK',t:'Garçons De Café',al:'Chrome',y:2023,l:null},
+  {f:'ZIAK - Grabba.m4a',a:'ZIAK',t:'Grabba',al:null,y:null,l:"Grabba, j'attrape tout ce qui passe"},
+  {f:'ZIAK - La nuit.m4a',a:'ZIAK',t:'La Nuit',al:null,y:null,l:null},
+  {f:'ZIAK - Le crime parfait.m4a',a:'ZIAK',t:'Le Crime Parfait',al:'Chrome',y:2023,l:null},
+  {f:'ZIAK - Même pas un grincement.m4a',a:'ZIAK',t:'Même Pas Un Grincement',al:'Akimbo',y:2021,l:null},
+  {f:'ZIAK feat. JOSMAN - Room.m4a',a:'ZIAK',t:'Room',al:'Chrome',y:2023,l:null},
+  {f:'ZIAK feat. ZEU - Zulu.m4a',a:'ZIAK',t:'Zulu',al:'Akimbo',y:2021,l:null},
+  {f:'Ziak - Akimbo.m4a',a:'ZIAK',t:'Akimbo',al:'Akimbo',y:2021,l:"En akimbo, les mains sur les hanches, j'pose mes yeux sur toi"},
+  {f:'Ziak - Bad Bad.m4a',a:'ZIAK',t:'Bad Bad',al:'Akimbo',y:2021,l:null},
+  {f:'Ziak - Chrome.m4a',a:'ZIAK',t:'Chrome',al:'Chrome',y:2023,l:"Chrome, ça brille, j'avance en chrome"},
+  {f:'Ziak - Lieu & heure.m4a',a:'ZIAK',t:'Lieu & Heure',al:null,y:null,l:null},
+  {f:'Ziak feat. Kaaris - Rien ne se remplace.m4a',a:'ZIAK',t:'Rien Ne Se Remplace',al:null,y:null,l:null},
+  {f:'Zola - Belles Femmes.m4a',a:'Zola',t:'Belles Femmes',al:null,y:null,l:null},
+  {f:'Zola - California Girl.m4a',a:'Zola',t:'California Girl',al:null,y:null,l:null},
+  {f:'Zola - Honey.m4a',a:'Zola',t:'Honey',al:'Cicatrices',y:2019,l:null},
+  {f:'Zola - Zolabeille.m4a',a:'Zola',t:'Zolabeille',al:null,y:null,l:null},
+  {f:'Zuukou Mayzie 667 feat. Freeze Corleone 667 - Spiderman-Venom.m4a',a:'Zuukou Mayzie 667',t:'Spiderman-Venom',al:null,y:null,l:"Spider-Man, c'est moi, Venom c'est mon frère de sang"},
+];
+
+const classicPool = T;
+const lyricsPool  = T.filter(x => x.l);
+const albumPool   = T.filter(x => x.al);
+
+/* ═══════════════════════════════════════════
+   DOM REFS
+═══════════════════════════════════════════ */
 const OVERLAY   = document.getElementById('gameOverlay');
-const GC        = document.getElementById('gameCanvas');
-const CTX       = GC.getContext('2d');
-const EL_SCORE  = document.getElementById('gScore');
-const EL_LIVES  = document.getElementById('gLives');
-const EL_COMBO  = document.getElementById('gCombo');
-const EL_FINAL  = document.getElementById('gFinalScore');
-const EL_BEST   = document.getElementById('gBestScore');
-const G_HUD     = document.getElementById('gHud');
-const PSTART    = document.getElementById('gPanelStart');
-const POVER     = document.getElementById('gPanelOver');
-const BTN_START = document.getElementById('gBtnStart');
-const BTN_RETRY = document.getElementById('gBtnRetry');
+const P_MODES   = document.getElementById('gPanelStart');
+const P_GAME    = document.getElementById('gPanelGame');
+const P_OVER    = document.getElementById('gPanelOver');
 const BTN_QUIT  = document.getElementById('gBtnQuit');
+const BTN_RETRY = document.getElementById('gBtnRetry');
+const BTN_MODES = document.getElementById('btBtnModes');
+const BTN_QUIT2 = document.getElementById('btBtnQuit');
 const OPEN_BTN  = document.getElementById('physicsBtn');
+const Q_WRAP    = document.getElementById('btQuestionWrap');
+const CHOICES   = document.getElementById('btChoices');
+const SCORE_EL  = document.getElementById('btScoreNum');
+const ROUND_LBL = document.getElementById('btRoundLbl');
+const PROG_FILL = document.getElementById('btProgFill');
+const TIMER_W   = document.getElementById('btTimerWrap');
+const TIMER_B   = document.getElementById('btTimerBar');
+const FEEDBACK  = document.getElementById('btFeedback');
+const FB_TEXT   = document.getElementById('btFeedbackText');
+const NEXT_BTN  = document.getElementById('btNext');
+const FINAL_SC  = document.getElementById('gFinalScore');
+const RECAP_EL  = document.getElementById('btRecap');
 
-// ── Constants ────────────────────────────────────────────────────
-const CAM_H      = 1000;
-const CAM_D      = 0.84;
-const SEG_LEN    = 200;
-const VISIBLE    = 200;
-const TRACK      = 2000;
-const MAX_SPD    = 380;
-const ACCEL      = 220;
-const BRAKE_F    = 520;
-const IDLE_DEC   = 90;
-const AUTO_ACC   = 35;
-const STEER_C    = 0.007;
-const CENTRIFUGE = 0.30;
-const CURVE_SC   = 0.018;
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let mode     = null;
+let rounds   = [];
+let ridx     = 0;
+let score    = 0;
+let answers  = [];
+let answered = false;
+let timerRAF = null;
+let timerEnd = 0;
+let audioEl  = null;
+let waveRAF  = null;
 
-const OBS_COLORS = ['#EEC5CF','#B4DCC5','#C8BDEA','#F0CAAC','#78BFFF','#FFD080','#FF8866'];
+const BASE     = window.location.pathname.includes('/projets/') ? '../' : '';
+const TIMER_MS = 15000;
 
-// ── State ────────────────────────────────────────────────────────
-let W, H;
-let gState = 'idle';
-let pos = 0, speed = 0, playerX = 0;
-let lives = 3, score = 0, distT = 0;
-let obstacles = [], spawnTimer = 1.5, spawnInterval = 1.8;
-let shakeT = 0;
-let keys = {};
-let raf = null, lastTs = 0;
-let best = +localStorage.getItem('driftBest') || 0;
-
-// ── Track ────────────────────────────────────────────────────────
-let segs = [];
-
-function buildTrack() {
-  segs = [];
-  function add(n, curve) {
-    curve = curve || 0;
-    for (let i = 0; i < n; i++) segs.push({ curve, alt: segs.length % 2 | 0, trees: [] });
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = 0 | (Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  add(40);       add(70,  2.2); add(35);       add(80, -2.8);
-  add(50);       add(60,  3.5); add(40, -1.8); add(70, -3.2);
-  add(55);       add(90,  2.0); add(40);       add(80, -2.4);
-  add(60,  3.0); add(45, -1.5); add(55);       add(70,  4.0);
-  add(40, -2.0); add(60,  1.8); add(50);       add(80, -3.5);
-  while (segs.length < TRACK) {
-    var ref = segs[segs.length % 860];
-    segs.push({ curve: ref.curve * 0.8, alt: segs.length % 2 | 0, trees: [] });
+  return a;
+}
+
+function pick4(correct) {
+  const wrong = shuffle(ARTISTS.filter(a => a !== correct)).slice(0, 3);
+  return shuffle([correct, ...wrong]);
+}
+
+function pickRounds(pool) {
+  const s = shuffle(pool);
+  if (mode !== 'album') return s.slice(0, 5);
+  const seen = new Set();
+  const out  = [];
+  for (const tr of s) {
+    if (!seen.has(tr.al)) { seen.add(tr.al); out.push(tr); }
+    if (out.length === 5) break;
   }
-  segs.forEach(function(s) {
-    if (Math.random() < 0.55) {
-      var n = 1 + (Math.random() < 0.4 ? 1 : 0);
-      for (var j = 0; j < n; j++) {
-        s.trees.push({ side: j % 2 === 0 ? -1 : 1, xOff: 1.3 + Math.random() * 2.4, sz: 0.55 + Math.random() * 0.85 });
-      }
-    }
-  });
+  return out.length >= 5 ? out : s.slice(0, 5);
 }
 
-function getSeg(i) {
-  return segs[((i % TRACK) + TRACK) % TRACK];
+/* ═══════════════════════════════════════════
+   SCREEN MANAGEMENT
+═══════════════════════════════════════════ */
+function showScreen(id) {
+  P_MODES.style.display = 'none';
+  P_GAME.style.display  = 'none';
+  P_OVER.style.display  = 'none';
+  document.getElementById(id).style.display = 'flex';
 }
 
-// ── Static scene ─────────────────────────────────────────────────
-var stars = [], mnts = [];
-function buildScene() {
-  stars = [];
-  for (var i = 0; i < 110; i++) stars.push({ x: Math.random(), y: Math.random(), r: Math.random() < 0.18 ? 1.5 : 1, a: 0.25 + Math.random() * 0.75 });
-  mnts = [];
-  for (var j = 0; j < 32; j++) mnts.push({ x: j / 32, h: 0.22 + Math.random() * 0.78, w: 0.04 + Math.random() * 0.10 });
-}
-
-// ── Sky ──────────────────────────────────────────────────────────
-function drawSky(horizon) {
-  var g = CTX.createLinearGradient(0, 0, 0, horizon);
-  g.addColorStop(0,    '#050213');
-  g.addColorStop(0.55, '#140B38');
-  g.addColorStop(1,    '#2C1468');
-  CTX.fillStyle = g;
-  CTX.fillRect(0, 0, W, horizon + 1);
-
-  stars.forEach(function(s) {
-    CTX.globalAlpha = s.a;
-    CTX.fillStyle = '#fff';
-    CTX.fillRect(s.x * W, s.y * horizon * 0.88, s.r, s.r);
-  });
-  CTX.globalAlpha = 1;
-
-  CTX.fillStyle = '#110828';
-  CTX.beginPath();
-  CTX.moveTo(0, horizon);
-  mnts.forEach(function(m) {
-    var x = ((m.x + pos * 0.000022) % 1) * W;
-    CTX.lineTo(x - m.w * W * 0.45, horizon);
-    CTX.lineTo(x,                   horizon - m.h * horizon * 0.30);
-    CTX.lineTo(x + m.w * W * 0.45, horizon);
-  });
-  CTX.lineTo(W, horizon);
-  CTX.closePath();
-  CTX.fill();
-}
-
-// ── Road strip ───────────────────────────────────────────────────
-function trap(x1, y1, w1, x2, y2, w2) {
-  CTX.beginPath();
-  CTX.moveTo(x1,      y1); CTX.lineTo(x1 + w1, y1);
-  CTX.lineTo(x2 + w2, y2); CTX.lineTo(x2,      y2);
-  CTX.closePath(); CTX.fill();
-}
-
-function drawStrip(sx1, sy1, sw1, sx2, sy2, sw2, alt) {
-  CTX.fillStyle = alt ? '#141A0C' : '#0D1208';
-  CTX.fillRect(0, sy2, W, sy1 - sy2);
-
-  var r1 = sw1 * 0.15, r2 = sw2 * 0.15;
-  CTX.fillStyle = alt ? '#EE3355' : '#F5F0E8';
-  trap(sx1 - sw1 - r1, sy1, r1 * 2, sx2 - sw2 - r2, sy2, r2 * 2);
-  trap(sx1 + sw1 - r1, sy1, r1 * 2, sx2 + sw2 - r2, sy2, r2 * 2);
-
-  CTX.fillStyle = alt ? '#252018' : '#1C1810';
-  trap(sx1 - sw1, sy1, sw1 * 2, sx2 - sw2, sy2, sw2 * 2);
-
-  if (!alt) {
-    var d1 = sw1 * 0.022, d2 = sw2 * 0.022;
-    CTX.fillStyle = 'rgba(245,240,232,0.55)';
-    trap(sx1 - d1, sy1, d1 * 2, sx2 - d2, sy2, d2 * 2);
-  }
-}
-
-// ── Tree ─────────────────────────────────────────────────────────
-function drawTree(x, y, sc) {
-  if (sc < 0.35 || y > H + 20 || y < 0) return;
-  var h = 88 * sc, w = 36 * sc;
-  CTX.fillStyle = '#2C1A08';
-  CTX.fillRect(x - w * 0.09, y - h * 0.28, w * 0.18, h * 0.30);
-  CTX.fillStyle = '#0C1E06';
-  [[0, 1.0, 1.0], [0.5, 0.62, 0.72], [0.5, 0.30, 0.50]].forEach(function(row) {
-    var yf = row[0], hf = row[1], wf = row[2];
-    CTX.beginPath();
-    CTX.moveTo(x, y - h * hf);
-    CTX.lineTo(x + w * wf, y - h * (hf - hf * 0.32));
-    CTX.lineTo(x - w * wf, y - h * (hf - hf * 0.32));
-    CTX.closePath(); CTX.fill();
-  });
-}
-
-// ── Obstacle car ─────────────────────────────────────────────────
-function drawObsCar(cx, by, sw, color) {
-  var cw = sw * 1.2, ch = cw * 0.44;
-  if (cw < 4) return;
-  CTX.fillStyle = 'rgba(0,0,0,0.30)';
-  CTX.beginPath(); CTX.ellipse(cx, by + ch * 0.1, cw * 0.42, ch * 0.09, 0, 0, Math.PI * 2); CTX.fill();
-  CTX.fillStyle = color;
-  CTX.beginPath(); CTX.roundRect(cx - cw / 2, by - ch, cw, ch, ch * 0.18); CTX.fill();
-  CTX.fillStyle = 'rgba(0,0,0,0.20)';
-  CTX.beginPath(); CTX.roundRect(cx - cw * 0.3, by - ch * 1.52, cw * 0.6, ch * 0.62, ch * 0.14); CTX.fill();
-  CTX.fillStyle = '#FF2233';
-  CTX.fillRect(cx - cw / 2 + cw * 0.05, by - ch * 0.22, cw * 0.11, ch * 0.09);
-  CTX.fillRect(cx + cw / 2 - cw * 0.16, by - ch * 0.22, cw * 0.11, ch * 0.09);
-  CTX.fillStyle = 'rgba(255,20,40,0.18)';
-  CTX.beginPath(); CTX.ellipse(cx - cw * 0.35, by - ch * 0.18, cw * 0.09, ch * 0.09, 0, 0, Math.PI * 2); CTX.fill();
-  CTX.beginPath(); CTX.ellipse(cx + cw * 0.35, by - ch * 0.18, cw * 0.09, ch * 0.09, 0, 0, Math.PI * 2); CTX.fill();
-}
-
-// ── Player car ───────────────────────────────────────────────────
-function drawPlayer(steer) {
-  var cx = W / 2 + steer * W * 0.028;
-  var cy = H * 0.775;
-  var cw = Math.min(W * 0.135, 170);
-  var ch = cw * 0.50;
-
-  CTX.fillStyle = 'rgba(0,0,0,0.42)';
-  CTX.beginPath(); CTX.ellipse(cx, cy + ch * 0.14, cw * 0.44, ch * 0.10, 0, 0, Math.PI * 2); CTX.fill();
-
-  var bg = CTX.createLinearGradient(cx - cw / 2, cy - ch, cx + cw / 2, cy);
-  bg.addColorStop(0, '#F5F0E8'); bg.addColorStop(0.5, '#DDD8CC'); bg.addColorStop(1, '#B8B2A6');
-  CTX.fillStyle = bg;
-  CTX.beginPath(); CTX.roundRect(cx - cw / 2, cy - ch, cw, ch, ch * 0.18); CTX.fill();
-
-  CTX.fillStyle = 'rgba(110,170,255,0.16)';
-  CTX.beginPath(); CTX.roundRect(cx - cw * 0.27, cy - ch * 1.50, cw * 0.54, ch * 0.60, ch * 0.10); CTX.fill();
-
-  var rg = CTX.createLinearGradient(cx, cy - ch * 1.50, cx, cy - ch * 0.90);
-  rg.addColorStop(0, '#CCCAC0'); rg.addColorStop(1, '#AEACA4');
-  CTX.fillStyle = rg;
-  CTX.beginPath(); CTX.roundRect(cx - cw * 0.27, cy - ch * 1.50, cw * 0.54, ch * 0.60, ch * 0.10); CTX.fill();
-
-  CTX.fillStyle = 'rgba(255,240,150,0.90)';
-  CTX.fillRect(cx - cw / 2 + cw * 0.06, cy - ch * 1.01, cw * 0.13, ch * 0.08);
-  CTX.fillRect(cx + cw / 2 - cw * 0.19, cy - ch * 1.01, cw * 0.13, ch * 0.08);
-  CTX.fillStyle = 'rgba(255,240,130,0.11)';
-  CTX.beginPath(); CTX.ellipse(cx - cw * 0.33, cy - ch * 0.97, cw * 0.12, ch * 0.12, 0, 0, Math.PI * 2); CTX.fill();
-  CTX.beginPath(); CTX.ellipse(cx + cw * 0.33, cy - ch * 0.97, cw * 0.12, ch * 0.12, 0, 0, Math.PI * 2); CTX.fill();
-
-  CTX.fillStyle = '#1C1810';
-  [cx - cw * 0.37, cx + cw * 0.37].forEach(function(wx) {
-    CTX.beginPath(); CTX.ellipse(wx, cy - ch * 0.07, cw * 0.10, ch * 0.14, 0, 0, Math.PI * 2); CTX.fill();
-  });
-}
-
-// ── Update ───────────────────────────────────────────────────────
-function update(dt) {
-  var left  = keys['ArrowLeft']  || keys['a'] || keys['A'];
-  var right = keys['ArrowRight'] || keys['d'] || keys['D'];
-  var accel = keys['ArrowUp']    || keys['w'] || keys['W'];
-  var brake = keys['ArrowDown']  || keys['s'] || keys['S'];
-
-  if (accel)      speed = Math.min(speed + ACCEL   * dt, MAX_SPD);
-  else if (brake) speed = Math.max(speed - BRAKE_F * dt, 0);
-  else            speed = Math.max(speed - IDLE_DEC * dt, 0);
-  speed = Math.min(speed + AUTO_ACC * dt, MAX_SPD);
-
-  pos   += speed * dt;
-  distT += speed * dt;
-
-  var si  = Math.floor(pos / SEG_LEN);
-  var seg = getSeg(si);
-  playerX += seg.curve * speed * CENTRIFUGE * dt * 0.00012;
-
-  var steerAmt = STEER_C * Math.max(speed, 60) * dt;
-  if (left)  playerX -= steerAmt;
-  if (right) playerX += steerAmt;
-
-  if (Math.abs(playerX) > 1.05) { speed *= 0.982; shakeT = Math.max(shakeT, 0.22); }
-  playerX = Math.max(-2.4, Math.min(2.4, playerX));
-  shakeT  = Math.max(0, shakeT - dt);
-
-  score = Math.floor(distT / 55);
-  EL_SCORE.textContent = score;
-
-  spawnTimer -= dt;
-  if (spawnTimer <= 0) {
-    var laneX = (Math.floor(Math.random() * 3) - 1) * 0.52 + (Math.random() - 0.5) * 0.12;
-    obstacles.push({
-      z:     pos + VISIBLE * SEG_LEN * 0.80,
-      x:     laneX,
-      color: OBS_COLORS[Math.floor(Math.random() * OBS_COLORS.length)],
-      spd:   55 + Math.random() * 90,
-    });
-    spawnInterval = Math.max(0.65, spawnInterval * 0.992);
-    spawnTimer    = spawnInterval;
-  }
-
-  obstacles.forEach(function(o) { o.z -= o.spd * dt; });
-
-  var pz = pos + CAM_D * CAM_H;
-  obstacles = obstacles.filter(function(o) {
-    if (o.z < pos - SEG_LEN * 4) return false;
-    if (Math.abs(o.z - pz) < SEG_LEN * 0.75 && Math.abs(o.x - playerX) < 0.44) {
-      onHit(); return false;
-    }
-    return true;
-  });
-}
-
-function onHit() {
-  lives--;
-  speed  *= 0.22;
-  shakeT  = 0.65;
-  EL_LIVES.textContent = '❤'.repeat(Math.max(0, lives));
-  if (lives <= 0) setTimeout(gameOver, 750);
-}
-
-// ── Render ───────────────────────────────────────────────────────
-function render() {
-  CTX.save();
-  if (shakeT > 0) CTX.translate((Math.random() - 0.5) * 12, (Math.random() - 0.5) * 6);
-
-  var startSeg = Math.floor(pos / SEG_LEN);
-  var posInSeg = pos % SEG_LEN;
-  var xOff = 0;
-  var proj  = [];
-
-  for (var i = 0; i < VISIBLE + 1; i++) {
-    var dw = (i + 1) * SEG_LEN - posInSeg;
-    if (dw <= 0) { proj.push(null); continue; }
-    var scale = (CAM_D * CAM_H) / dw;
-    var s     = getSeg(startSeg + i);
-    xOff     += s.curve * CURVE_SC;
-    proj.push({
-      sx:    W / 2 + (xOff - playerX) * scale * W * 0.5,
-      sy:    H / 2 + scale * H * 0.5,
-      sw:    scale * W * 0.5,
-      scale: scale,
-      seg:   s,
-    });
-  }
-
-  var horizon = H * 0.40;
-  for (var ii = proj.length - 1; ii >= 0; ii--) {
-    var pp = proj[ii];
-    if (pp && pp.sy > H * 0.18 && pp.sy < H) { horizon = pp.sy; break; }
-  }
-
-  drawSky(horizon);
-
-  var treeList = [], carList = [];
-
-  for (var i = VISIBLE - 1; i >= 0; i--) {
-    var p1 = proj[i], p2 = proj[i + 1];
-    if (!p1 || !p2) continue;
-    var sy1 = Math.min(H, p1.sy);
-    var sy2 = Math.max(horizon, p2.sy);
-    if (sy2 >= sy1) continue;
-
-    drawStrip(p1.sx, sy1, p1.sw, p2.sx, sy2, p2.sw, p1.seg.alt);
-
-    p1.seg.trees.forEach(function(t) {
-      var tx = p1.sx + t.side * (p1.sw + t.xOff * p1.sw * 0.5);
-      var sc = p1.sw * t.sz / (W * 0.28);
-      treeList.push({ x: tx, y: p1.sy, sc: sc });
-    });
-
-    var segIdx = ((startSeg + i) % TRACK + TRACK) % TRACK;
-    obstacles.forEach(function(o) {
-      var oz = ((Math.floor(o.z / SEG_LEN)) % TRACK + TRACK) % TRACK;
-      if (oz !== segIdx) return;
-      carList.push({ cx: p1.sx + o.x * p1.sw, by: p1.sy, sw55: p1.sw * 0.024 * 55, color: o.color });
-    });
-  }
-
-  treeList.forEach(function(t) { drawTree(t.x, t.y, t.sc); });
-  carList.forEach(function(c)  { drawObsCar(c.cx, c.by, c.sw55, c.color); });
-
-  var steer = (keys['ArrowLeft'] || keys['a'] || keys['A']) ? -1
-            : (keys['ArrowRight'] || keys['d'] || keys['D']) ? 1 : 0;
-  drawPlayer(steer * Math.min(speed / MAX_SPD, 1) * 1.3);
-
-  var sr = speed / MAX_SPD;
-  if (sr > 0.58) {
-    var a  = (sr - 0.58) / 0.42 * 0.26;
-    var vg = CTX.createRadialGradient(W / 2, H / 2, H * 0.18, W / 2, H / 2, H * 0.78);
-    vg.addColorStop(0, 'rgba(0,0,0,0)');
-    vg.addColorStop(1, 'rgba(0,0,16,' + a.toFixed(2) + ')');
-    CTX.fillStyle = vg; CTX.fillRect(0, 0, W, H);
-  }
-
-  var bw = Math.min(W * 0.22, 280), bx = W / 2 - bw / 2, by_sp = H - 10;
-  CTX.fillStyle = 'rgba(255,255,255,0.08)'; CTX.fillRect(bx, by_sp, bw, 3);
-  CTX.fillStyle = sr > 0.85 ? '#FF4466' : sr > 0.62 ? '#FFAA33' : '#B4DCC5';
-  CTX.fillRect(bx, by_sp, bw * sr, 3);
-
-  CTX.restore();
-}
-
-// ── Loop ─────────────────────────────────────────────────────────
-function loop(ts) {
-  raf = requestAnimationFrame(loop);
-  var dt = Math.min((ts - lastTs) / 1000, 0.05);
-  lastTs = ts;
-  if (gState === 'playing') { update(dt); render(); }
-}
-
-// ── State ────────────────────────────────────────────────────────
-function startGame() {
-  pos = 0; speed = 70; playerX = 0;
-  lives = 3; score = 0; distT = 0;
-  obstacles = []; spawnTimer = 1.4; spawnInterval = 1.8;
-  shakeT = 0; keys = {};
-  EL_LIVES.textContent = '❤❤❤';
-  EL_SCORE.textContent = '0';
-  if (EL_COMBO) EL_COMBO.textContent = '';
-  PSTART.style.display = 'none';
-  POVER.style.display  = 'none';
-  G_HUD.style.display  = 'flex';
-  gState  = 'playing';
-  lastTs  = performance.now();
-}
-
-function gameOver() {
-  gState = 'over';
-  G_HUD.style.display = 'none';
-  POVER.style.display = 'flex';
-  EL_FINAL.textContent = score;
-  if (score > best) { best = score; localStorage.setItem('driftBest', best); }
-  EL_BEST.textContent = best;
-}
-
+/* ═══════════════════════════════════════════
+   OPEN / CLOSE
+═══════════════════════════════════════════ */
 function openGame() {
-  resize();
   OVERLAY.style.display = 'flex';
-  PSTART.style.display  = 'flex';
-  POVER.style.display   = 'none';
-  G_HUD.style.display   = 'none';
-  gState = 'idle';
+  stopAudio();
+  clearTimer();
+  showScreen('gPanelStart');
 }
 
 function closeGame() {
   OVERLAY.style.display = 'none';
-  gState = 'idle';
+  stopAudio();
+  clearTimer();
+  stopWave();
 }
 
-function resize() {
-  W = GC.width  = window.innerWidth;
-  H = GC.height = window.innerHeight;
+/* ═══════════════════════════════════════════
+   GAME START
+═══════════════════════════════════════════ */
+function startGame(m) {
+  mode    = m;
+  ridx    = 0;
+  score   = 0;
+  answers = [];
+
+  const pool = m === 'lyrics' ? lyricsPool : m === 'album' ? albumPool : classicPool;
+  rounds = pickRounds(pool.length >= 5 ? pool : classicPool);
+
+  SCORE_EL.textContent = '0';
+  showScreen('gPanelGame');
+  renderRound();
 }
 
-// ── Input ────────────────────────────────────────────────────────
-window.addEventListener('keydown', function(e) {
-  keys[e.key] = true;
-  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
-}, { capture: true });
-window.addEventListener('keyup', function(e) { delete keys[e.key]; });
+/* ═══════════════════════════════════════════
+   RENDER ROUND
+═══════════════════════════════════════════ */
+function renderRound() {
+  answered = false;
+  stopAudio();
+  clearTimer();
+  NEXT_BTN.style.display = 'none';
+  FEEDBACK.className     = 'bt-feedback';
 
-// ── Wiring ───────────────────────────────────────────────────────
+  const tr = rounds[ridx];
+  const ch = pick4(tr.a);
+
+  ROUND_LBL.textContent = `${ridx + 1} / 5`;
+  PROG_FILL.style.width = `${ridx / 5 * 100}%`;
+
+  if (mode === 'classic') {
+    renderClassic();
+    TIMER_W.style.display = 'block';
+    setTimeout(() => {
+      playAudio(tr);
+      startTimer(() => autoWrong(tr));
+    }, 500);
+  } else {
+    mode === 'lyrics' ? renderLyrics(tr) : renderAlbum(tr);
+    TIMER_W.style.display = 'none';
+  }
+
+  renderChoices(ch, tr.a);
+}
+
+function renderClassic() {
+  Q_WRAP.innerHTML = `
+    <div class="bt-classic-inner">
+      <span class="bt-q-label">◉ QUI CHANTE CE SON ?</span>
+      <div class="bt-waveform" id="btWaveform">${'<div class="bt-wave-bar"></div>'.repeat(28)}</div>
+      <span class="bt-music-hint">???</span>
+    </div>`;
+  startWave();
+}
+
+function renderLyrics(tr) {
+  Q_WRAP.innerHTML = `
+    <div class="bt-lyric-inner">
+      <span class="bt-q-label">❝ QUI A DIT ÇA ?</span>
+      <div class="bt-lyric-card">
+        <span class="bt-quote">❝</span>
+        <p class="bt-lyric-text">${tr.l}</p>
+        <span class="bt-quote bt-quote-end">❞</span>
+      </div>
+    </div>`;
+}
+
+function renderAlbum(tr) {
+  Q_WRAP.innerHTML = `
+    <div class="bt-album-inner">
+      <span class="bt-q-label">◉ QUI A CRÉÉ CET ALBUM ?</span>
+      <div class="bt-album-card">
+        <span class="bt-album-icon">💿</span>
+        <p class="bt-album-name">${tr.al}</p>
+        ${tr.y ? `<span class="bt-album-year">${tr.y}</span>` : ''}
+      </div>
+    </div>`;
+}
+
+function renderChoices(ch, correct) {
+  CHOICES.innerHTML = '';
+  ch.forEach(artist => {
+    const btn = document.createElement('button');
+    btn.className   = 'bt-choice-btn';
+    btn.textContent = artist;
+    btn.dataset.a   = artist;
+    btn.addEventListener('click', () => onAnswer(artist, correct));
+    CHOICES.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   ANSWER
+═══════════════════════════════════════════ */
+function onAnswer(chosen, correct) {
+  if (answered) return;
+  answered = true;
+  stopAudio();
+  clearTimer();
+
+  const ok = chosen === correct;
+  if (ok) score++;
+  SCORE_EL.textContent = score;
+  answers.push({ tr: rounds[ridx], correct, chosen, ok });
+
+  revealChoices(chosen, correct);
+  FB_TEXT.textContent = ok ? '✓ BONNE RÉPONSE !' : `✗ C'était ${correct}`;
+  FEEDBACK.className  = `bt-feedback bt--visible ${ok ? 'bt--correct' : 'bt--wrong'}`;
+  setTimeout(() => { NEXT_BTN.style.display = 'block'; }, 700);
+}
+
+function autoWrong(tr) {
+  if (answered) return;
+  answered = true;
+  stopAudio();
+  answers.push({ tr, correct: tr.a, chosen: null, ok: false });
+  CHOICES.querySelectorAll('.bt-choice-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.a === tr.a) b.classList.add('bt--correct');
+  });
+  FB_TEXT.textContent = `⏱ Trop lent ! C'était ${tr.a}`;
+  FEEDBACK.className  = 'bt-feedback bt--visible bt--wrong';
+  setTimeout(() => { NEXT_BTN.style.display = 'block'; }, 700);
+}
+
+function revealChoices(chosen, correct) {
+  CHOICES.querySelectorAll('.bt-choice-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.a === correct) b.classList.add('bt--correct');
+    else if (b.dataset.a === chosen) b.classList.add('bt--wrong');
+  });
+}
+
+/* ═══════════════════════════════════════════
+   NEXT / RECAP
+═══════════════════════════════════════════ */
+function nextRound() {
+  ridx++;
+  if (ridx >= 5) { showRecap(); return; }
+  stopWave();
+  P_GAME.style.opacity = '0';
+  setTimeout(() => { P_GAME.style.opacity = '1'; renderRound(); }, 180);
+}
+
+function showRecap() {
+  stopWave();
+  PROG_FILL.style.width = '100%';
+  const emoji = score === 5 ? '🌟' : score >= 4 ? '🎯' : score >= 2 ? '💡' : '😔';
+  FINAL_SC.textContent = `${emoji} ${score} / 5`;
+  RECAP_EL.innerHTML = answers.map(a => `
+    <div class="bt-rec-row ${a.ok ? 'bt--correct' : 'bt--wrong'}">
+      <span class="bt-rec-icon">${a.ok ? '✓' : '✗'}</span>
+      <span class="bt-rec-artist">${a.correct}</span>
+      <span class="bt-rec-track">${a.tr.t}</span>
+    </div>`).join('');
+  showScreen('gPanelOver');
+}
+
+/* ═══════════════════════════════════════════
+   AUDIO
+═══════════════════════════════════════════ */
+function playAudio(tr) {
+  stopAudio();
+  const audio = new Audio();
+  audio.src    = BASE + 'medias/radio%20musique/' + encodeURIComponent(tr.f);
+  audio.volume = 0.8;
+  audio.addEventListener('loadedmetadata', () => {
+    const maxStart = Math.max(0, Math.min(audio.duration * 0.4, audio.duration - 20));
+    audio.currentTime = Math.random() * maxStart;
+    audio.play().catch(() => {});
+  });
+  audio.load();
+  audioEl = audio;
+}
+
+function stopAudio() {
+  if (!audioEl) return;
+  audioEl.pause();
+  audioEl.src = '';
+  audioEl = null;
+}
+
+/* ═══════════════════════════════════════════
+   TIMER
+═══════════════════════════════════════════ */
+function startTimer(onEnd) {
+  timerEnd = performance.now() + TIMER_MS;
+  TIMER_B.style.transition = 'none';
+  TIMER_B.style.width = '100%';
+  function tick() {
+    const rem = Math.max(0, timerEnd - performance.now());
+    const pct = rem / TIMER_MS;
+    TIMER_B.style.transition = '';
+    TIMER_B.style.width = `${pct * 100}%`;
+    TIMER_B.style.background = pct > 0.5 ? 'var(--apricot)' : pct > 0.25 ? '#ffaa44' : '#ff5566';
+    if (rem <= 0) { onEnd(); return; }
+    timerRAF = requestAnimationFrame(tick);
+  }
+  timerRAF = requestAnimationFrame(tick);
+}
+
+function clearTimer() {
+  if (timerRAF) { cancelAnimationFrame(timerRAF); timerRAF = null; }
+  TIMER_B.style.transition = 'none';
+  TIMER_B.style.width = '0%';
+}
+
+/* ═══════════════════════════════════════════
+   WAVEFORM
+═══════════════════════════════════════════ */
+function startWave() {
+  stopWave();
+  let t = 0;
+  function tick() {
+    const bars = document.querySelectorAll('.bt-wave-bar');
+    if (!bars.length) { waveRAF = null; return; }
+    t += 0.05;
+    bars.forEach((b, i) => {
+      const h = 6
+        + Math.abs(Math.sin(t * 1.8 + i * 0.38)) * 22
+        + Math.abs(Math.sin(t * 3.1 + i * 0.71)) * 14;
+      b.style.height = h.toFixed(1) + 'px';
+    });
+    waveRAF = requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+function stopWave() {
+  if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+}
+
+/* ═══════════════════════════════════════════
+   EVENTS
+═══════════════════════════════════════════ */
 OPEN_BTN.addEventListener('click', openGame);
-BTN_START.addEventListener('click', startGame);
-BTN_RETRY.addEventListener('click', startGame);
-BTN_QUIT.addEventListener('click',  closeGame);
-window.addEventListener('resize', resize);
+BTN_QUIT.addEventListener('click', closeGame);
+BTN_RETRY.addEventListener('click', () => startGame(mode));
+BTN_MODES.addEventListener('click', () => { stopAudio(); stopWave(); showScreen('gPanelStart'); });
+BTN_QUIT2.addEventListener('click', closeGame);
+NEXT_BTN.addEventListener('click', nextRound);
 
-// ── Init ─────────────────────────────────────────────────────────
-buildTrack();
-buildScene();
-resize();
-requestAnimationFrame(loop);
+document.querySelectorAll('.bt-mode-card').forEach(btn =>
+  btn.addEventListener('click', () => startGame(btn.dataset.mode))
+);
 
 })();
