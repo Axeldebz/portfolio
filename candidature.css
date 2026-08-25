@@ -165,6 +165,10 @@ body.cv-body {
 
 /* ── Écran 3D ── */
 .cv-project-media { position: relative; perspective: 1400px; }
+
+/* Format vertical (edit 1080×1920) — pas d'aspect-ratio 16/9 forcé */
+.cv-project-media--portrait { max-width: min(320px, 70vw); margin: 0 auto; }
+.cv-project-media--portrait .cv-frame { aspect-ratio: 9 / 16; }
 .cv-frame-glow {
   position: absolute;
   inset: -6px;
