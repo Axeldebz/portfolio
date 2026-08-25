@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────
-   CANDIDATURE CVCA — page privée, non liée au site
+   CANDIDATURE TSI — page privée, non liée au site
    (linked after style.css)
 ────────────────────────────────────────── */
 
@@ -34,7 +34,7 @@ body.cv-body {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(28, 24, 16, 0.07);
 }
-.cv-topbar-logo { font-family: var(--font-d); font-size: 21px; letter-spacing: 0.01em; }
+.cv-topbar-logo { font-family: var(--font-d); font-size: 21px; letter-spacing: 0.01em; cursor: pointer; }
 .cv-topbar-tag {
   font-family: var(--font-b);
   font-size: 10px;
@@ -141,7 +141,7 @@ body.cv-body {
 .cv-projects {
   position: relative;
   z-index: 1;
-  max-width: 1240px;
+  max-width: 1360px;
   margin: 0 auto;
   padding: 40px 40px 80px;
   display: flex;
@@ -151,15 +151,15 @@ body.cv-body {
 
 .cv-project {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 68px;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 56px;
   align-items: center;
   opacity: 0;
   transform: translateY(52px);
   transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
 }
 .cv-project.in-view { opacity: 1; transform: translateY(0); }
-.cv-project:nth-child(even) { grid-template-columns: 0.85fr 1.15fr; }
+.cv-project:nth-child(even) { grid-template-columns: 0.65fr 1.35fr; }
 .cv-project:nth-child(even) .cv-project-media { order: 2; }
 .cv-project:nth-child(even) .cv-project-info  { order: 1; }
 
@@ -190,6 +190,7 @@ body.cv-body {
 .cv-frame:hover {
   box-shadow: 0 56px 120px -22px rgba(28,24,16,0.46), 0 0 0 1px rgba(28,24,16,0.09);
 }
+.cv-frame.is-playing { transform: none !important; }
 .cv-frame video {
   position: absolute;
   inset: 0;
@@ -238,6 +239,20 @@ body.cv-body {
   background: rgba(245,240,232,0.92);
   color: var(--dark);
 }
+.cv-watermark {
+  position: absolute;
+  top: 16px; left: 16px;
+  z-index: 2;
+  font-family: var(--font-b);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0.55;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
 
 /* ── Infos projet ── */
 .cv-project-info { display: flex; flex-direction: column; gap: 18px; }
@@ -261,6 +276,19 @@ body.cv-body {
   background: rgba(28,24,16,0.055);
 }
 .cv-tag--accent { background: var(--accent, #C8BDEA); }
+.cv-tools {
+  font-family: var(--font-b);
+  font-size: 12px;
+  opacity: 0.62;
+}
+.cv-tools-label {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 10px;
+  opacity: 0.7;
+  margin-right: 8px;
+}
 .cv-project-title {
   font-family: var(--font-d);
   font-size: clamp(30px, 4vw, 52px);

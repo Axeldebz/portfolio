@@ -1,9 +1,10 @@
 /* ─────────────────────────────────────────
-   CANDIDATURE.JS — page dossier CVCA
+   CANDIDATURE.JS — page dossier TSI
    – Barre de progression scroll
    – Reveal des projets au scroll
    – Lecture vidéo à la demande (aucun chargement avant clic)
-   – Tilt 3D au survol des écrans
+   – Tilt 3D au survol des écrans, reset pendant la lecture
+   – Logo AXEL : retour portfolio avec avertissement
 ───────────────────────────────────────── */
 
 /* ── Barre de progression ── */
@@ -39,7 +40,10 @@ document.querySelectorAll('.cv-frame').forEach(frame => {
 
   btn.addEventListener('click', (e) => { e.stopPropagation(); start(); btn.classList.add('hidden'); });
   frame.addEventListener('click', () => { if (!video.src) { start(); btn.classList.add('hidden'); } });
-  video.addEventListener('pause', () => { /* les contrôles natifs gèrent la reprise */ });
+
+  // Pendant la lecture : écran remis à plat pour une lecture bien visible
+  video.addEventListener('play',  () => { frame.classList.add('is-playing'); frame.style.transform = 'none'; });
+  video.addEventListener('pause', () => { frame.classList.remove('is-playing'); frame.style.transform = ''; });
 });
 
 /* Pause automatique des vidéos hors champ pour ne pas jouer plusieurs pistes son en même temps */
@@ -57,11 +61,26 @@ document.querySelectorAll('.cv-frame').forEach(f => pauseIO.observe(f));
 if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   document.querySelectorAll('.cv-frame').forEach(frame => {
     frame.addEventListener('pointermove', (e) => {
+      if (frame.classList.contains('is-playing')) return;
       const r  = frame.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width  - 0.5;
       const py = (e.clientY - r.top)  / r.height - 0.5;
       frame.style.transform = `rotateY(${(px * 14).toFixed(2)}deg) rotateX(${(-py * 12).toFixed(2)}deg) scale(1.015)`;
     });
-    frame.addEventListener('pointerleave', () => { frame.style.transform = ''; });
+    frame.addEventListener('pointerleave', () => {
+      if (!frame.classList.contains('is-playing')) frame.style.transform = '';
+    });
+  });
+}
+
+/* ── Logo AXEL : retour portfolio (avec avertissement) ── */
+const cvHome = document.getElementById('cvHome');
+if (cvHome) {
+  cvHome.addEventListener('click', () => {
+    const ok = confirm("Cette page n'est accessible que via le lien qui vous a été transmis — elle n'apparaît pas sur le portfolio public. Retourner au portfolio ?");
+    if (ok) window.location.href = 'home.html';
+  });
+  cvHome.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvHome.click(); }
   });
 }
